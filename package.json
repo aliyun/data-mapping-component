@@ -1,0 +1,62 @@
+{
+  "name": "react-data-mapping",
+  "version": "1.1.2",
+  "description": "数据/字段映射React组件",
+  "main": "dist/index.js",
+  "pack": "pack/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rollup -c && cp -r ./src/static ./dist && cp -r ./src/static ./pack",
+    "dev": "rollup -w -c"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@gitlab.alibaba-inc.com:DataQ-FE-Components/butterfly-data-mapping.git"
+  },
+  "keywords": [
+    "butterfly",
+    "data-mapping",
+    "field-mapping",
+    "react-data-mapping",
+    "react-field-mapping",
+    "butterfly-data-mapping"
+  ],
+  "author": "无惟",
+  "license": "MIT",
+  "dependencies": {
+    "butterfly-dag": "~3.1.4"
+  },
+  "peerDependencies": {
+    "react": ">15.6.1",
+    "react-dom": ">15.6.1",
+    "lodash": "^4.17.20",
+    "jquery": ">3.5.1"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.12.0",
+    "@babel/plugin-proposal-class-properties": "~7.12.1",
+    "@babel/plugin-proposal-object-rest-spread": "~7.12.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/plugin-transform-runtime": "^7.12.1",
+    "@babel/preset-env": "~7.12.0",
+    "@babel/preset-react": "~7.12.1",
+    "@babel/preset-typescript": "~7.12.7",
+    "@types/lodash": "~4.14.167",
+    "@types/react": "~17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "babel-loader": "~8.2.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "~6.26.2",
+    "less": "~3.12.2",
+    "postcss": "~8.1.7",
+    "rollup": "~2.38.0",
+    "rollup-plugin-babel": "~4.4.0",
+    "rollup-plugin-commonjs": "~10.1.0",
+    "rollup-plugin-extensions": "~0.1.0",
+    "rollup-plugin-json": "~4.0.0",
+    "rollup-plugin-peer-deps-external": "~2.2.4",
+    "rollup-plugin-postcss": "~4.0.0",
+    "rollup-plugin-typescript2": "~0.29.0",
+    "rollup-plugin-url": "~3.0.1",
+    "typescript": "~4.1.3"
+  }
+}
