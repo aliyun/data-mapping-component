@@ -1,3 +1,8 @@
+[![npm version](https://img.shields.io/npm/v/react-data-mapping.svg?style=flat)](https://www.npmjs.com/package/react-data-mapping)
+[![download](https://img.shields.io/npm/dm/react-data-mapping.svg?style=flat)](https://www.npmjs.com/package/react-data-mapping)
+[![gzip size](https://img.shields.io/bundlephobia/minzip/react-data-mapping)](https://www.npmjs.com/package/react-data-mapping)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aliyun/react-data-mapping/blob/master/LICENSE)
+
 <h3 align="center">
   一个基于React的数据/字段映射组件
 </h3>
@@ -5,11 +10,6 @@
 [English](./README.en-US.md) | 简体中文
 
 ## ✨ 特性
-
-[![npm version](https://img.shields.io/npm/v/react-data-mapping.svg?style=flat)](https://www.npmjs.com/package/react-data-mapping)
-[![download](https://img.shields.io/npm/dm/react-data-mapping.svg?style=flat)](https://www.npmjs.com/package/react-data-mapping)
-[![gzip size](https://img.shields.io/bundlephobia/minzip/react-data-mapping)](https://www.npmjs.com/package/react-data-mapping)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/aliyun/react-data-mapping/blob/master/LICENSE)
 
 <p align="center">
   <img width="400" src="https://img.alicdn.com/imgextra/i2/O1CN01O8w0tT26WuU5J6lty_!!6000000007670-1-tps-595-411.gif">
