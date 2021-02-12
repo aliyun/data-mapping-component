@@ -139,3 +139,5 @@ import 'react-data-mapping/dist/index.css';
   targetClassName={'target-column'}
 />
 ```
+
+如需要更多定制的需求，您可以提issue或者参考[Butterfly](https://github.com/alibaba/butterfly)来定制您需要的需求

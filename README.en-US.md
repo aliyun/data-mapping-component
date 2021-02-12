@@ -122,3 +122,5 @@ import 'react-data-mapping/dist/index.css';
   targetClassName={'target-column'}
 />
 ```
+
+If you need more customized requirements, you can refer to issue or [butterfly](https://github.com/alibaba/butterfly/blob/master/README.en-US.md) to customize your needs
