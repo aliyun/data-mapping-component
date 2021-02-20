@@ -27,6 +27,7 @@ ReactDOM.render((
         <Row gutter={[16, 16]}>
           <Col flex={'600px'}>
             <DataMapping 
+              defaultEmptyWidth={100}
               className='container single-no-header'
               columns={columns1}
               sourceData={sourceData1}
@@ -38,6 +39,7 @@ ReactDOM.render((
           </Col>
           <Col flex={'600px'}>
             <DataMapping 
+              defaultEmptyWidth={100}
               className='container single-with-header'
               columns={columns2}
               sourceData={sourceData2}
@@ -49,6 +51,7 @@ ReactDOM.render((
           </Col>
           <Col flex={'600px'}>
             <DataMapping 
+              defaultEmptyWidth={100}
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
@@ -70,6 +73,7 @@ ReactDOM.render((
           </Col>
           <Col flex={'600px'}>
             <DataMapping 
+              defaultEmptyWidth={100}
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
@@ -91,7 +95,8 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
+              defaultEmptyWidth={100}
               className='container single-no-header'
               columns={columns4}
               sourceData={sourceData4}

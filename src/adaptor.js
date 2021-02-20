@@ -4,7 +4,7 @@ import TableNode from './canvas/node';
 import * as _ from 'lodash';
 
 export let transformInitData = (data) => {
-  let {coloums, sourceData, targetData, mappingData, type, extraPos, sortable} = data;
+  let {coloums, sourceData, targetData, mappingData, type, extraPos, sortable, noDataContent, defaultEmptyWidth} = data;
   const _genNodes = (data, nodeType, comType) => {
     if (comType === 'single' && data.constructor === Object) {
       return [_.assign({
@@ -13,6 +13,8 @@ export let transformInitData = (data) => {
         _coloums: coloums,
         _extraPos: extraPos,
         Class: TableNode,
+        _noDataContent: noDataContent,
+        _defaultEmptyWidth: defaultEmptyWidth,
         sortable
       }, data)];
     } else if (comType === 'mutiply' && data.constructor === Array) {
@@ -22,6 +24,8 @@ export let transformInitData = (data) => {
           _coloums: coloums,
           _extraPos: extraPos,
           Class: TableNode,
+          _noDataContent: noDataContent,
+          _defaultEmptyWidth: defaultEmptyWidth,
           sortable
         }, item);
       });
