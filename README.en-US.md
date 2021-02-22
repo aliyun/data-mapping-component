@@ -4,8 +4,6 @@
 
 English | [简体中文](./README.md)
 
-## ✨ Features
-
 <p align="center">
   <img width="500" src="https://img.alicdn.com/imgextra/i2/O1CN01O8w0tT26WuU5J6lty_!!6000000007670-1-tps-595-411.gif">
   <img width="500" src="https://img.alicdn.com/imgextra/i2/O1CN017Gcu0Y1mbgIHcgqwr_!!6000000004973-1-tps-595-411.gif">
@@ -14,6 +12,13 @@ English | [简体中文](./README.md)
   <img width="500" src="https://img.alicdn.com/imgextra/i3/O1CN01f4Ek5H1oCbqDjM7sL_!!6000000005189-1-tps-595-411.gif">
   <img width="500" src="https://img.alicdn.com/imgextra/i4/O1CN01Nt9rpo25y6NlRMUtR_!!6000000007594-1-tps-595-411.gif">
 </p>
+
+## ✨ Features
+* support for custom field attributes
+* support custom table name
+* support field connection number limit
+* support field sorting
+* support delay rendering, automatic adaptation of height and width, blank padding around
 
 ## 🔨QUCIK DEMO LOCAL
 
