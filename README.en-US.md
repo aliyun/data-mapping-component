@@ -19,6 +19,7 @@ English | [简体中文](./README.md)
 * support field connection number limit
 * support field sorting
 * support delay rendering, automatic adaptation of height and width, blank padding around
+* support custom empty field content
 
 ## 🔨QUCIK DEMO LOCAL
 

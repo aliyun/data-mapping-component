@@ -1,4 +1,4 @@
-import $_q from 'jquery';
+import $ from 'jquery';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
@@ -20,20 +20,20 @@ export default (config) => {
   }
   
   if (typeof config.width === 'number') {
-    width = `${config.width}px`;
+    width = config.width + 'px';
   }
 
-  let emptyDom = `<div style="width: ${width}"></div>`;
+  let emptyDom = '<div style="width: ' + width + '"></div>';
 
   if (content) {
     if (isReactEle(content)) {
-      emptyDom = $_q(ReactDOMServer.renderToString(content));
+      emptyDom = $(ReactDOMServer.renderToString(content));
     } else {
-      emptyDom = $_q(content);
+      emptyDom = $(content);
     }
   } else {
-    emptyDom = $_q(`<div class="no-data" style="width: ${width}"></div>`);
-    const iconDom = $_q('<i class="no-data-icon data-mapping-icon data-mapping-icon-kongshuju"></i>');
+    emptyDom = $('<div class="no-data" style="width: ' + width + '"></div>');
+    const iconDom = $('<i class="no-data-icon data-mapping-icon data-mapping-icon-kongshuju"></i>');
   
     emptyDom.append(iconDom);
   }
