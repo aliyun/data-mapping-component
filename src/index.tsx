@@ -47,8 +47,8 @@ interface ComProps {
   targetData: Array<any> | Object,
   mappingData: Array<any>,
   config?: config,
-  noDataContent?: string | JSX.Element,
-  defaultEmptyWidth?: number | string,
+  emptyContent?: string | JSX.Element,
+  emptyWidth?: number | string,
   onChange(data: any): void
 };
 
@@ -78,8 +78,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
       mappingData: _.cloneDeep(this.props.mappingData),
       extraPos: _.get(this.props, 'config.extraPos'),
       linkNumLimit: _.get(this.props, 'config.linkNumLimit'),
-      noDataContent: this.props.noDataContent,
-      defaultEmptyWidth: this.props.defaultEmptyWidth
+      emptyContent: this.props.emptyContent,
+      emptyWidth: this.props.emptyWidth
     });
     
     let canvasObj = {

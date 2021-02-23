@@ -4,7 +4,7 @@ import {Node} from 'butterfly-dag';
 import $ from 'jquery';
 import * as _ from 'lodash';
 
-import noDataDom from './no-data';
+import emptyDom from './empty';
 import Endpoint from './endpoint';
 
 export default class TableNode extends Node {
@@ -31,9 +31,8 @@ export default class TableNode extends Node {
   mounted() {
     this._createNodeEndpoint();
     // 保持title宽度
-    // TODO: title ellipsis
     if (!this.fieldsList.length) {
-      $(this.dom).find('.title').css('width', this.options._defaultEmptyWidth || 150);
+      $(this.dom).find('.title').css('width', this.options._emptyWidth || 150);
     }
   }
   draw(obj) {
@@ -147,9 +146,10 @@ export default class TableNode extends Node {
         })
       });
     } else {
-      const _noDataContent = _.get(this.options, '_noDataContent');
-      const noDataTree = noDataDom(_noDataContent, {
-        width: this.options._defaultEmptyWidth
+      const _emptyContent = _.get(this.options, '_emptyContent');
+      const noDataTree = emptyDom({
+        content: _emptyContent,
+        width: this.options._emptyWidth
       });
 
       container.append(noDataTree);

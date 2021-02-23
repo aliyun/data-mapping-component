@@ -56,6 +56,8 @@ npm install react-data-mapping
 | sourceData      | 来源表数据          | object/array     | undefined/[ ] `单表映射Object,多表映射Array` |
 | targetData      | 目标表数据          | object/array     | undefined/[ ] `单表映射Object,多表映射Array` |
 | mappingData     | 初始映射关系         | array            | [ ]                                       |
+| emptyContent    | 当表字段为空时显示内容 | string/JSX.Element     | - |
+| emptyWidth      | 当表字段为空时表容器宽度 | string/number     | 150 |
 | config     | 组件的额外属性配置，请看下面详细API        | object            | {}                          |
 | onChange        | 每次连线触发事件     | function         |                                            |
 
@@ -118,6 +120,8 @@ interface ComProps { // 组件props属性
   sourceData: Array < any > | Object; // 单表映射对应Object,多表映射Array,可参考demo
   targetData: Array < any > | Object; // 单表映射对应Object,多表映射Array,可参考demo
   mappingData: Array < any > ; // 初始化对应关系数据,可参考demo
+  emptyContent?: string | JSX.Element; // 当表字段为空时显示内容
+  emptyWidth?: number | string; // 当表字段为空时表容器宽度
   onChange(data: any): void // 每次连线都是触发onChange事件
 };
 ```

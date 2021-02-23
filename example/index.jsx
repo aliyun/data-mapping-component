@@ -9,6 +9,7 @@ import * as SingleNoHeaderData from './mock_data/single-no-header';
 import * as SingleWithHeaderData from './mock_data/single-with-header';
 import * as MutiplyMappingData from './mock_data/mutiply-mapping';
 import * as SinglePointLimit from './mock_data/single-point-limit';
+import * as EmptyField from './mock_data/empty-field';
 
 import 'antd/dist/antd.css';
 import './index.less';
@@ -18,6 +19,7 @@ const {columns1, mappingData1, sourceData1, targetData1} = SingleNoHeaderData;
 const {columns2, mappingData2, sourceData2, targetData2} = SingleWithHeaderData;
 const {columns3, mappingData3, sourceData3, targetData3} = MutiplyMappingData;
 const {columns4, mappingData4, sourceData4, targetData4} = SinglePointLimit;
+const {columns5, mappingData5, sourceData5, targetData5} = EmptyField;
 
 ReactDOM.render((
   <Router>
@@ -26,8 +28,7 @@ ReactDOM.render((
       <Layout>
         <Row gutter={[16, 16]}>
           <Col flex={'600px'}>
-            <DataMapping 
-              defaultEmptyWidth={100}
+            <DataMapping
               className='container single-no-header'
               columns={columns1}
               sourceData={sourceData1}
@@ -38,8 +39,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
-              defaultEmptyWidth={100}
+            <DataMapping
               className='container single-with-header'
               columns={columns2}
               sourceData={sourceData2}
@@ -50,8 +50,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
-              defaultEmptyWidth={100}
+            <DataMapping
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
@@ -72,8 +71,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
-              defaultEmptyWidth={100}
+            <DataMapping
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
@@ -96,7 +94,6 @@ ReactDOM.render((
           </Col>
           <Col flex={'600px'}>
             <DataMapping
-              defaultEmptyWidth={100}
               className='container single-no-header'
               columns={columns4}
               sourceData={sourceData4}
@@ -104,6 +101,49 @@ ReactDOM.render((
               mappingData={mappingData4}
               width={600}
               height={600}
+              config={{
+                linkNumLimit: 1,
+                extraPos: {
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingCenter: 100
+                }
+              }}
+            />
+          </Col>
+          <Col flex={'600px'}>
+            <DataMapping
+              className='container mutiply-mapping'
+              columns={columns5}
+              sourceData={sourceData5}
+              targetData={targetData5}
+              mappingData={mappingData5}
+              type={'mutiply'}
+              width={600}
+              height={296}
+              config={{
+                linkNumLimit: 1,
+                extraPos: {
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 10,
+                  paddingBottom: 10,
+                  paddingCenter: 100
+                }
+              }}
+            />
+            <DataMapping
+              className='container mutiply-mapping'
+              columns={columns5}
+              sourceData={sourceData5}
+              targetData={targetData5}
+              mappingData={mappingData5}
+              emptyContent={<div className="empty-content">自定义空状态</div>}
+              type={'mutiply'}
+              width={600}
+              height={296}
               config={{
                 linkNumLimit: 1,
                 extraPos: {
