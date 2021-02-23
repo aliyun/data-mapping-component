@@ -10,8 +10,6 @@
 
 [English](./README.en-US.md) | 简体中文
 
-## ✨ 特性
-
 <p align="center">
   <img width="400" src="https://img.alicdn.com/imgextra/i2/O1CN01O8w0tT26WuU5J6lty_!!6000000007670-1-tps-595-411.gif">
   <img width="400" src="https://img.alicdn.com/imgextra/i2/O1CN017Gcu0Y1mbgIHcgqwr_!!6000000004973-1-tps-595-411.gif">
@@ -20,6 +18,13 @@
   <img width="400" src="https://img.alicdn.com/imgextra/i3/O1CN01f4Ek5H1oCbqDjM7sL_!!6000000005189-1-tps-595-411.gif">
   <img width="400" src="https://img.alicdn.com/imgextra/i4/O1CN01Nt9rpo25y6NlRMUtR_!!6000000007594-1-tps-595-411.gif">
 </p>
+
+## ✨ 特性
+* 支持定制字段属性
+* 支持表名定制
+* 支持字段连接数量限制
+* 支持字段排序
+* 支持延迟渲染，自动适配高宽，四周留白等配置
 
 
 ## 🔨快速本地DEMO
