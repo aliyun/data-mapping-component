@@ -1,5 +1,6 @@
 'use strict';
 
+import $ from 'jquery';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import './index.less';
@@ -7,7 +8,6 @@ import Canvas from './canvas/canvas';
 import 'butterfly-dag/dist/index.css';
 import {transformInitData, transformChangeData} from './adaptor';
 import * as _ from 'lodash';
-const $ = require('jquery')
 
 interface columns {
   title?: string,
@@ -47,6 +47,8 @@ interface ComProps {
   targetData: Array<any> | Object,
   mappingData: Array<any>,
   config?: config,
+  emptyContent?: string | JSX.Element,
+  emptyWidth?: number | string,
   onChange(data: any): void
 };
 
@@ -75,7 +77,9 @@ export default class DataMapping extends React.Component<ComProps, any> {
       targetData: _.cloneDeep(this.props.targetData),
       mappingData: _.cloneDeep(this.props.mappingData),
       extraPos: _.get(this.props, 'config.extraPos'),
-      linkNumLimit: _.get(this.props, 'config.linkNumLimit')
+      linkNumLimit: _.get(this.props, 'config.linkNumLimit'),
+      emptyContent: this.props.emptyContent,
+      emptyWidth: this.props.emptyWidth
     });
     
     let canvasObj = {

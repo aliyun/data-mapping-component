@@ -19,6 +19,7 @@ English | [简体中文](./README.md)
 * support field connection number limit
 * support field sorting
 * support delay rendering, automatic adaptation of height and width, blank padding around
+* support custom empty field content
 
 ## 🔨QUCIK DEMO LOCAL
 
@@ -54,6 +55,8 @@ npm install react-data-mapping
 | sourceData      | source table data             | object/array | undefined/[ ] `single-table mapping Object, multi-table mapping Array` |
 | targetData      | target table data             | object/array | undefined/[ ] `single-table mapping , multi-table mapping Array` |
 | mappingData     | init mapping data             | array        | [ ]                                                                    |
+| emptyContent    | show content when table field is empty | string/JSX.Element     | - |
+| emptyWidth      | table container width when table field is empty | string/number     | 150 |
 | config     | the extra configuration of components，please reviewe the detailed API below        | object            | {}                          |
 | onChange        | event triggered by connection | function     |                                                                        |
 
@@ -106,6 +109,8 @@ interface ComProps { // component props
   sourceData: Array < any > | Object; // single-table mapping corresponds to Object, multi-table mapping Array, please refer to demo
   targetData: Array < any > | Object; // single-table mapping corresponds to Object, multi-table mapping Array, please refer to demo
   mappingData: Array < any > ; // initialize correspondence data, please refer to demo
+  emptyContent?: string | JSX.Element; // show content when table field is empty
+  emptyWidth?: number | string; // table container width when table field is empty
   onChange(data: any): void // onChange event is triggered every time you connect edge
 };
 ```

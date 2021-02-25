@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router, Route, Link, Redirect} from 'react-router-dom';
-import {Layout, Menu, Row, Col} from 'antd';
+import {BrowserRouter as Router} from 'react-router-dom';
+import {Layout, Row, Col, Button} from 'antd';
 import DataMapping from '../src/index.tsx';
 import * as SingleNoHeaderData from './mock_data/single-no-header';
 import * as SingleWithHeaderData from './mock_data/single-with-header';
@@ -26,7 +26,7 @@ ReactDOM.render((
       <Layout>
         <Row gutter={[16, 16]}>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
               className='container single-no-header'
               columns={columns1}
               sourceData={sourceData1}
@@ -37,7 +37,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
               className='container single-with-header'
               columns={columns2}
               sourceData={sourceData2}
@@ -48,7 +48,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
@@ -69,13 +69,25 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
               className='container mutiply-mapping'
               columns={columns3}
               sourceData={sourceData3}
               targetData={targetData3}
               mappingData={mappingData3}
               type={'mutiply'}
+              emptyContent={
+                <div className="empty-content">
+                  <p className="desc">暂无数据</p>
+                  <p
+                    className="add-field"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log('自定义空状态');
+                    }}
+                  >+ 添加字段</p>
+                </div>
+              }
               width={600}
               height={600}
               config={{
@@ -91,7 +103,7 @@ ReactDOM.render((
             />
           </Col>
           <Col flex={'600px'}>
-            <DataMapping 
+            <DataMapping
               className='container single-no-header'
               columns={columns4}
               sourceData={sourceData4}

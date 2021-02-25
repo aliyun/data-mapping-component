@@ -14,6 +14,9 @@
     .title {
       background: rgba(255, 255, 255, 0.15);
       padding-left: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
     .field {
       position: relative;
@@ -51,6 +54,14 @@
           top: 50%;
           right: 0;
         }
+      }
+    }
+    .no-data {
+      margin: 10px 0;
+      color: #474747;
+      text-align: center;
+      .no-data-icon {
+        font-size: 36px;
       }
     }
   }
