@@ -1,4 +1,3 @@
-
 <h3 align="center">
   一个基于React的数据/字段映射组件
 </h3>
@@ -20,21 +19,20 @@
 </p>
 
 ## ✨ 特性
+
 * 支持定制字段属性
 * 支持表名定制
 * 支持字段连接数量限制
 * 支持字段排序
 * 支持延迟渲染，自动适配高宽，四周留白等配置
 
-
 ## 🔨快速本地DEMO
 
 ``` 
 
 git clone git@github.com:aliyun/react-data-mapping.git
-npm install
+make install
 cd example
-npm install
 npm start
 ```
 
@@ -45,43 +43,70 @@ npm start
 npm install react-data-mapping
 ```
 
-## 属性<a name='canvas-attr'></a>：
+## API<a name='canvas-attr'></a>：
 
-<b>组件属性</b>
+<b>DataMapping属性</b>
 
-| key             | 说明               | 类型             | 默认值                                      |
-|-----------------|--------------------|------------------|------------------------------------------|
-| width           | 组件宽度            | number           | 默认500，自适应的话可以设置"auto"             |
-| height          | 组件高度            | number           | 默认500，自适应的话可以设置"auto"             |
-| type            | 映射类型            | string           | "single" `只能是"single" 或 "mutiply"`     |
-| className       | 组件类名            | string           |                                           |
-| sourceClassName | 来源表类名          | string           |                                           |
-| targetClassName | 目标表类名          | string           |                                           |
-| columns         | 每列的属性          | object           | undefined                                 |
-| sourceData      | 来源表数据          | object/array     | undefined/[ ] `单表映射Object,多表映射Array` |
-| targetData      | 目标表数据          | object/array     | undefined/[ ] `单表映射Object,多表映射Array` |
-| mappingData     | 初始映射关系         | array            | [ ]                                       |
-| config     | 组件的额外属性配置，请看下面详细API        | object            | {}                          |
-| onChange        | 每次连线触发事件     | function         |                                            |
+| 参数             | 说明                          | 类型                                 | 默认 值                                |
+|-----------------|-------------------------------|--------------------------------------|--------------------------------------|
+| width           | 组件宽度                       | <font color="c41d7f">number</font>   | 默认500，自适应的话可以设置"auto"        |
+| height          | 组件高度                       | <font color="c41d7f">number</font>   | 默认500，自适应的话可以设置"auto"        |
+| <a name='data-mapping-type'></a>type| 映射类型   | <font color="c41d7f">string</font>   | `single` &#124; `mutiply` ，默认 `single` |
+| className       | 组件类名                       | <font color="c41d7f">string</font>   |            -                          |
+| sourceClassName | 来源表类名                     | <font color="c41d7f">string</font>   |            -                          |
+| targetClassName | 目标表类名                     | <font color="c41d7f">string</font>   |             -                         |
+| columns         | 每列的属性                     | <font color="c41d7f">[ColumnsType](#columns-type)[ ]</font>   | undefined     |
+| sourceData      | 来源表数据                     | <font color="c41d7f">[SourceDataType](#source-data) { } &#124; [ ]</font> | undefined |
+| targetData      | 目标表数据                     | <font color="c41d7f">[TargetDataType](#target-data) { } &#124; [ ]</font>                         | undefined |
+| mappingData     | 初始映射关系                    | <font color="c41d7f">array</font>    | [ ]                                  |                                           |
+| config          | 组件的额外属性配置，见[config Prop](#config) | <font color="c41d7f">object</font>   | { }                                   |                                           |
+| onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |                                      |                                           |
 
-<b>columns（每列的属性）</b>
+<a name='columns-type'></a><b>Column</b>
 
-| key        | 说明                    | 类型    | 默认值                  |
+列描述数据对象，是Columns中的一项
+| 参数        | 说明                    | 类型    | 默认值                  |
 |------------|-------------------------|---------|------------------------|
-| title      | 列标题                   | string  |                        |
-| key        | 列标识                   | string  |                        |
-| width      | 列宽度                   | number  |                        |
-| primaryKey | 此属性是否为该组数据唯一标识 | boolean | `必须且仅有一个属性为true` |
+| key        | 列数据在数据项中对应的路径|<font color="c41d7f">string</font>| -                      |
+| width      | 列宽度                   | <font color="c41d7f">number</font>| -                      |
+| primaryKey | 此属性是否为该组数据唯一标识 | <font color="c41d7f">boolean</font>| `必须且仅有一个属性为true` |
 
+<a name='source-data'></a><b>sourceData</b>
 
-<b>config（组件的额外属性配置）</b>
+来源表数据，当[type](#data-mapping-type)为 `single` 时，sourceData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，sourceData的类型为<font color='#c41d7f'>[ ]</font>
 
-| key        | 说明                    | 类型    | 默认值                  |
+| 参数        | 说明                    | 类型     | 默认值                    |
 |------------|-------------------------|---------|------------------------|
-| delayDraw      | 延迟渲染，此组件一定要确保画布容器渲染(包括动画执行)完毕才能渲染,否则坐标都产生偏移,如：antd的modal的动画                  | number  |  0                     |
-| extraPos        | 画布渲染的时候会留padding                   | object  |                        |
-| sortable      | 排序支持                   | boolean/object  |                        | false
-| linkNumLimit | 连线数量支持 | number/object |               |
+| id         | 列标识， `single` 类型下，id可不填， `mutiply` 为必填 | <font color="c41d7f">string</font>  | -               |
+| title      | 列标题                   | <font color="c41d7f">string</font>  |  -                      |
+| fileds      | 数据数组                  | <font color="c41d7f">array</font>  | -                       |
+
+<a name='target-data'></a><b>targetData</b>
+
+目标表数据，当[type](#data-mapping-type)为 `single` 时，targetData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，targetData的类型为<font color='#c41d7f'>[ ]</font>，属性详情见[sourceData](#srouce-data)
+
+<a name='config'></a><b>config</b>
+
+组件的额外属性配置
+
+| 参数        | 说明                    | 类型    | 默认值                  |
+|------------|-------------------------|---------|------------------------|
+| delayDraw  | 延迟渲染，此组件一定要确保画布容器渲染(包括动画执行)完毕才能渲染, 否则坐标都产生偏移, 如：antd的modal的动画 | <font color="c41d7f">number</font> | 0|
+| extraPos        | 画布渲染的时候会留padding, | [extraPos Prop](#extraPos-prop)<font color="c41d7f">object</font>  | -                       |
+| sortable        | 排序支持                   | <font color="c41d7f">boolean &#124; object</font>   |  -                      | 
+| linkNumLimit    | 连线数量支持 | <font color="c41d7f">number &#124; object</font>  |   -            |
+
+<a name='extraPos-prop'></a><b>extraPos</b>
+
+画布渲染的时候会留padding
+
+| 参数          |说明            | 类型         | 默认值|
+|-----------   |----------------|-------------|------|
+|paddingLeft   |  -             | number      | -    |
+|paddingRight  |  -             | number      | -    |
+|paddingTop    |  -             | number      | -    |
+|paddingBottom |  -             | number      | -    |
+|paddingCenter |  水平间距        | number      | 150    |
 
 ## 🔗API
 
@@ -95,21 +120,21 @@ interface columns { // 设置每列的属性
 
 interface config {
   delayDraw: number; // 延迟渲染，此组件一定要确保画布容器渲染(包括动画执行)完毕才能渲染,否则坐标都产生偏移,如：antd的modal的动画
-  extraPos?: { // 画布渲染的时候会留padding
-    paddingLeft?: number,
-    paddingRight?: number,
-    paddingTop?: number,
-    paddingBottom?: number,
-    paddingCenter?: number,
-  },
-  sortable?: boolean | { // 排序支持，假如是true，会整个画布都支持排序
-    source?: boolean, // 假如是true，单纯左侧来源表支持排序
-    target?: boolean  // 假如是true，单纯左侧目标表支持排序
-  },
-  linkNumLimit?: number | {  // 连线数量支持，假如是number，会整个画布都支持n条连线
-    source?: number,  // 假如是number，单纯左侧来源表支持n条连线
-    target?: number   // 假如是number，单纯左侧来源表支持n条连线
-  }
+  extraPos ? : { // 画布渲染的时候会留padding
+      paddingLeft ? : number,
+      paddingRight ? : number,
+      paddingTop ? : number,
+      paddingBottom ? : number,
+      paddingCenter ? : number,
+    },
+    sortable ? : boolean | { // 排序支持，假如是true，会整个画布都支持排序
+      source ? : boolean, // 假如是true，单纯左侧来源表支持排序
+      target ? : boolean // 假如是true，单纯左侧目标表支持排序
+    },
+    linkNumLimit ? : number | { // 连线数量支持，假如是number，会整个画布都支持n条连线
+      source ? : number, // 假如是number，单纯左侧来源表支持n条连线
+      target ? : number // 假如是number，单纯左侧来源表支持n条连线
+    }
 }
 
 interface ComProps { // 组件props属性

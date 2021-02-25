@@ -28,7 +28,9 @@ export let transformInitData = (data) => {
     }
   }
   let sourceNodes = _genNodes(sourceData, 'source', type);
+  console.log("🚀 ~ file: adaptor.js ~ line 31 ~ transformInitData ~ sourceNodes", sourceNodes)
   let targetNodes = _genNodes(targetData, 'target', type);
+  console.log("🚀 ~ file: adaptor.js ~ line 33 ~ transformInitData ~ targetNodes", targetNodes)
   let edges = mappingData.map((item) => {
     return {
       id: `${item.source}-${item.target}`,

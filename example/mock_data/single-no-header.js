@@ -2,12 +2,15 @@
 
 export const columns1 = [{
   key: 'id',
+  title: 'ID',
   primaryKey: true,
   width: 30
 }, {
   key: 'name',
+  title: '名字',
 }, {
   key: 'desc',
+  title: '描述',
   width: 90
 }];
 
