@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+import ReactDOM from 'react-dom';
 
 const isReactEle = (HTMLElement) => {
   return React.isValidElement(HTMLElement);
@@ -27,7 +27,7 @@ export default (config) => {
 
   if (content) {
     if (isReactEle(content)) {
-      emptyDom = $(ReactDOMServer.renderToString(content));
+      emptyDom = ReactDOM.render(content, document.createElement('div'));
     } else {
       emptyDom = $(content);
     }
