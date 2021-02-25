@@ -9,7 +9,7 @@ English | [简体中文](./README.md)
   <img width="500" src="https://img.alicdn.com/imgextra/i2/O1CN017Gcu0Y1mbgIHcgqwr_!!6000000004973-1-tps-595-411.gif">
 </p>
 <p align="center">
-  <img width="500" src="https://img.alicdn.com/imgextra/i3/O1CN01f4Ek5H1oCbqDjM7sL_!!6000000005189-1-tps-595-411.gif">
+  <img width="500" src="https://img.alicdn.com/imgextra/i2/O1CN011xYzxM1ZenzfVE0Xq_!!6000000003220-1-tps-595-411.gif">
   <img width="500" src="https://img.alicdn.com/imgextra/i4/O1CN01Nt9rpo25y6NlRMUtR_!!6000000007594-1-tps-595-411.gif">
 </p>
 
@@ -19,6 +19,7 @@ English | [简体中文](./README.md)
 * support field connection number limit
 * support field sorting
 * support delay rendering, automatic adaptation of height and width, blank padding around
+* support custom empty field content
 
 ## 🔨QUCIK DEMO LOCAL
 
@@ -54,6 +55,8 @@ npm install react-data-mapping
 | sourceData      | source table data             | object/array | undefined/[ ] `single-table mapping Object, multi-table mapping Array` |
 | targetData      | target table data             | object/array | undefined/[ ] `single-table mapping , multi-table mapping Array` |
 | mappingData     | init mapping data             | array        | [ ]                                                                    |
+| emptyContent    | show content when table field is empty | string/JSX.Element     | - |
+| emptyWidth      | table container width when table field is empty | string/number     | 150 |
 | config     | the extra configuration of components，please reviewe the detailed API below        | object            | {}                          |
 | onChange        | event triggered by connection | function     |                                                                        |
 
@@ -106,6 +109,8 @@ interface ComProps { // component props
   sourceData: Array < any > | Object; // single-table mapping corresponds to Object, multi-table mapping Array, please refer to demo
   targetData: Array < any > | Object; // single-table mapping corresponds to Object, multi-table mapping Array, please refer to demo
   mappingData: Array < any > ; // initialize correspondence data, please refer to demo
+  emptyContent?: string | JSX.Element; // show content when table field is empty
+  emptyWidth?: number | string; // table container width when table field is empty
   onChange(data: any): void // onChange event is triggered every time you connect edge
 };
 ```

@@ -14,7 +14,7 @@
   <img width="400" src="https://img.alicdn.com/imgextra/i2/O1CN017Gcu0Y1mbgIHcgqwr_!!6000000004973-1-tps-595-411.gif">
 </p>
 <p align="center">
-  <img width="400" src="https://img.alicdn.com/imgextra/i3/O1CN01f4Ek5H1oCbqDjM7sL_!!6000000005189-1-tps-595-411.gif">
+  <img width="400" src="https://img.alicdn.com/imgextra/i2/O1CN011xYzxM1ZenzfVE0Xq_!!6000000003220-1-tps-595-411.gif">
   <img width="400" src="https://img.alicdn.com/imgextra/i4/O1CN01Nt9rpo25y6NlRMUtR_!!6000000007594-1-tps-595-411.gif">
 </p>
 
@@ -25,6 +25,7 @@
 * 支持字段连接数量限制
 * 支持字段排序
 * 支持延迟渲染，自动适配高宽，四周留白等配置
+* 支持空字段内容定制
 
 ## 🔨快速本地DEMO
 
@@ -148,6 +149,8 @@ interface ComProps { // 组件props属性
   sourceData: Array < any > | Object; // 单表映射对应Object,多表映射Array,可参考demo
   targetData: Array < any > | Object; // 单表映射对应Object,多表映射Array,可参考demo
   mappingData: Array < any > ; // 初始化对应关系数据,可参考demo
+  emptyContent ? : string | JSX.Element; // 当表字段为空时显示内容
+  emptyWidth ? : number | string; // 当表字段为空时表容器宽度
   onChange(data: any): void // 每次连线都是触发onChange事件
 };
 ```

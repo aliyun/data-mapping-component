@@ -3,6 +3,8 @@
 import {Node} from 'butterfly-dag';
 import $ from 'jquery';
 import * as _ from 'lodash';
+
+import emptyDom from './empty';
 import Endpoint from './endpoint';
 
 export default class TableNode extends Node {
@@ -26,8 +28,36 @@ export default class TableNode extends Node {
 
     this.fieldsList = [];
   }
+  _addEventListener() {
+    $(this.dom).on('mouseDown', (e) => {
+      const LEFT_KEY = 0;
+      if (e.button !== LEFT_KEY) {
+        return;
+      }
+
+      if (this.draggable) {
+        this._isMoving = true;
+        this.emit('InnerEvents', {
+          type: 'node:dragBegin',
+          data: this
+        });
+      } else {
+        // 单纯为了抛错事件给canvas，为了让canvas的dragtype不为空，不会触发canvas:click事件
+        this.emit('InnerEvents', {
+          type: 'node:mouseDown',
+          data: this
+        });
+
+        return true;
+      }
+    });
+  }
   mounted() {
     this._createNodeEndpoint();
+    // 保持title宽度
+    if (!this.fieldsList.length) {
+      $(this.dom).find('.title').css('width', this.options._emptyWidth || 150);
+    }
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -91,53 +121,63 @@ export default class TableNode extends Node {
     let sortable = _.get(this, 'options.sortable');
     let isObject = Object.prototype.toString.call(sortable) === "[object Object]";
     let type = _.get(this, 'options.type', '');
+
+    if (fields && fields.length) {
+      fields.forEach((_field) => {
+        let fieldDom = $('<div class="field"></div>');
+        let _primaryKey = coloums[0].key;
+        let sortFieldDom = undefined;
   
-    fields.forEach((_field) => {
-      let fieldDom = $('<div class="field"></div>');
-      let _primaryKey = coloums[0].key;
-      let sortFieldDom = undefined;
-
-      if (sortable && typeof(sortable) === 'boolean') {
-        sortFieldDom = this._createSortableBtn(_field);
-      }
-      fieldDom.css({
-        height: this.ROW_HEIGHT + 'px',
-        'line-height': this.ROW_HEIGHT + 'px'
-      });
-      coloums.forEach((_col) => {
-        let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
-
-        fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
-        fieldDom.append(fieldItemDom);
-        if (_col.primaryKey) {
-          _primaryKey = _col.key;
-        }
-      });
-      if (sortFieldDom) {
-        fieldDom.append(sortFieldDom);
-      }
-      if (type === 'source') {
-        let rightPoint = $('<div class="point right-point"></div>');
-        fieldDom.append(rightPoint);
-        if (isObject && sortable.source) {
+        if (sortable && typeof(sortable) === 'boolean') {
           sortFieldDom = this._createSortableBtn(_field);
+        }
+        fieldDom.css({
+          height: this.ROW_HEIGHT + 'px',
+          'line-height': this.ROW_HEIGHT + 'px'
+        });
+        coloums.forEach((_col) => {
+          let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
+  
+          fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
+          fieldDom.append(fieldItemDom);
+          if (_col.primaryKey) {
+            _primaryKey = _col.key;
+          }
+        });
+        if (sortFieldDom) {
           fieldDom.append(sortFieldDom);
         }
-      }
-      if (type === 'target') {
-        let leftPoint = $('<div class="point left-point"></div>');
-        fieldDom.append(leftPoint);
-        if (isObject && sortable.target) {
-          sortFieldDom = this._createSortableBtn(_field);
-          fieldDom.append(sortFieldDom);
+        if (type === 'source') {
+          let rightPoint = $('<div class="point right-point"></div>');
+          fieldDom.append(rightPoint);
+          if (isObject && sortable.source) {
+            sortFieldDom = this._createSortableBtn(_field);
+            fieldDom.append(sortFieldDom);
+          }
         }
-      }
-      container.append(fieldDom);
-      this.fieldsList.push({
-        id: _field[_primaryKey],
-        dom: fieldDom
-      })
-    });
+        if (type === 'target') {
+          let leftPoint = $('<div class="point left-point"></div>');
+          fieldDom.append(leftPoint);
+          if (isObject && sortable.target) {
+            sortFieldDom = this._createSortableBtn(_field);
+            fieldDom.append(sortFieldDom);
+          }
+        }
+        container.append(fieldDom);
+        this.fieldsList.push({
+          id: _field[_primaryKey],
+          dom: fieldDom
+        })
+      });
+    } else {
+      const _emptyContent = _.get(this.options, '_emptyContent');
+      const noDataTree = emptyDom({
+        content: _emptyContent,
+        width: this.options._emptyWidth
+      });
+
+      container.append(noDataTree);
+    }
   }
   _createNodeEndpoint() {
     let type = this.options.type;

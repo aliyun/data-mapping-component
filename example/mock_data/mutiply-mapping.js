@@ -107,20 +107,8 @@ export const targetData3 = [{
   }]
 }, {
   id: 'target2',
-  title: '目标列2',
-  fields: [{
-    id: '1',
-    name: '字段1',
-    desc: 'filed1'
-  }, {
-    id: '2',
-    name: '字段2',
-    desc: 'filed2'
-  }, {
-    id: '3',
-    name: '字段3',
-    desc: 'filed3'
-  }]
+  title: '目标列2(空状态)',
+  fields: []
 }];
 
 export const mappingData3 = [{
