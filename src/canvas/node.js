@@ -12,6 +12,8 @@ export default class TableNode extends Node {
     super(opts);
     // 标题高度
     this.TITLE_HEIGHT = 34;
+    // 列标题高度
+    this.COLUMNS_TITLE_HEIGHT = 28;
     // 每列宽度
     this.COLUMN_WIDTH = 60;
     // 每行高度
@@ -77,9 +79,9 @@ export default class TableNode extends Node {
 
     this._calcSize(node, obj);
 
-    this._createTableName(node);
-    this._createFieldTitle(node);
-    this._createFields(node);
+    this._createTableName(node); // 表名
+    this._createFieldTitle(node); // 字段标题
+    this._createFields(node); // 字段
     return node[0];
   }
   _createTableName(container = this.dom) {
@@ -94,12 +96,21 @@ export default class TableNode extends Node {
     }
   }
   _createFieldTitle(container = this.dom) {
-    let coloums = _.get(this, 'options._coloums', []);
-    let hasFieldTitle = _.some(coloums, (item) => {
-      return item.name;
+    let columns = _.get(this, 'options._columns', []);
+    let hasFieldTitle = _.some(columns, (item) => {
+      return item.title;
     });
-    // todo: 需要添加colum name
-    // console.log(hasFieldTitle);
+    if (hasFieldTitle) {
+      const columnsTitleDom = $('<div class="filed-title"></div>')
+      columns.forEach(_col => {
+        const columnsTitleItem = $(`<span class="filed-title-item">${_col.title}</span>`);
+        columnsTitleItem.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
+        columnsTitleDom.append(columnsTitleItem);
+      });
+      columnsTitleDom.css('height', this.COLUMNS_TITLE_HEIGHT + 'px')
+                     .css('line-height', this.COLUMNS_TITLE_HEIGHT + 'px')
+      container.append(columnsTitleDom);
+    }
   }
   _createSortableBtn(field) {
     let sortFieldDom = $(`
@@ -117,7 +128,7 @@ export default class TableNode extends Node {
   }
   _createFields(container = this.dom) {
     let fields = _.get(this, 'options.fields');
-    let coloums = _.get(this, 'options._coloums', []);
+    let columns = _.get(this, 'options._columns', []);
     let sortable = _.get(this, 'options.sortable');
     let isObject = Object.prototype.toString.call(sortable) === "[object Object]";
     let type = _.get(this, 'options.type', '');
@@ -125,7 +136,7 @@ export default class TableNode extends Node {
     if (fields && fields.length) {
       fields.forEach((_field) => {
         let fieldDom = $('<div class="field"></div>');
-        let _primaryKey = coloums[0].key;
+        let _primaryKey = columns[0].key;
         let sortFieldDom = undefined;
   
         if (sortable && typeof(sortable) === 'boolean') {
@@ -135,7 +146,7 @@ export default class TableNode extends Node {
           height: this.ROW_HEIGHT + 'px',
           'line-height': this.ROW_HEIGHT + 'px'
         });
-        coloums.forEach((_col) => {
+        columns.forEach((_col) => {
           let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
   
           fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
@@ -224,7 +235,7 @@ export default class TableNode extends Node {
     }
     this.height += fields.length * this.ROW_HEIGHT;
     
-    let columns = _.get(obj, 'options._coloums');
+    let columns = _.get(obj, 'options._columns');
     columns.forEach((item) => {
       this.width += item.width || this.COLUMN_WIDTH;
     });

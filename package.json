@@ -1,6 +1,6 @@
 {
   "name": "react-data-mapping",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "数据/字段映射React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",

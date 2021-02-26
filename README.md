@@ -32,8 +32,9 @@
 ``` 
 
 git clone git@github.com:aliyun/react-data-mapping.git
-make install
+npm install
 cd example
+npm install
 npm start
 ```
 
@@ -68,7 +69,8 @@ npm install react-data-mapping
 列描述数据对象，是Columns中的一项
 | 参数        | 说明                    | 类型    | 默认值                  |
 |------------|-------------------------|---------|------------------------|
-| key        | 列数据在数据项中对应的路径|<font color="c41d7f">string</font>| -                      |
+| key        | 列数据在数据项中对应的路径|  <font color="c41d7f">string</font>| -                      |
+| title      | 列头显示文字              |<font color="c41d7f">string</font>| -                      |
 | width      | 列宽度                   | <font color="c41d7f">number</font>| -                      |
 | primaryKey | 此属性是否为该组数据唯一标识 | <font color="c41d7f">boolean</font>| `必须且仅有一个属性为true` |
 
@@ -84,7 +86,7 @@ npm install react-data-mapping
 
 <a name='target-data'></a><b>targetData</b>
 
-目标表数据，当[type](#data-mapping-type)为 `single` 时，targetData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，targetData的类型为<font color='#c41d7f'>[ ]</font>，属性详情见[sourceData](#srouce-data)
+目标表数据，当[type](#data-mapping-type)为 `single` 时，targetData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，targetData的类型为<font color='#c41d7f'>[ ]</font>，属性详情见[sourceData](#source-data)
 
 <a name='config'></a><b>config</b>
 
@@ -93,7 +95,7 @@ npm install react-data-mapping
 | 参数        | 说明                    | 类型    | 默认值                  |
 |------------|-------------------------|---------|------------------------|
 | delayDraw  | 延迟渲染，此组件一定要确保画布容器渲染(包括动画执行)完毕才能渲染, 否则坐标都产生偏移, 如：antd的modal的动画 | <font color="c41d7f">number</font> | 0|
-| extraPos        | 画布渲染的时候会留padding, | [extraPos Prop](#extraPos-prop)<font color="c41d7f">object</font>  | -                       |
+| extraPos        | 画布渲染的时候会留padding, | [extraPos Prop](#extraPos-prop)<font color="c41d7f"> { }</font>  | -                       |
 | sortable        | 排序支持                   | <font color="c41d7f">boolean &#124; object</font>   |  -                      | 
 | linkNumLimit    | 连线数量支持 | <font color="c41d7f">number &#124; object</font>  |   -            |
 
@@ -103,10 +105,10 @@ npm install react-data-mapping
 
 | 参数          |说明            | 类型         | 默认值|
 |-----------   |----------------|-------------|------|
-|paddingLeft   |  -             | number      | -    |
-|paddingRight  |  -             | number      | -    |
-|paddingTop    |  -             | number      | -    |
-|paddingBottom |  -             | number      | -    |
+|paddingLeft   |  左侧padding间距             | number      | 0    |
+|paddingRight  |  右侧padding间距             | number      | 0    |
+|paddingTop    |  顶部padding间距             | number      | 0    |
+|paddingBottom |  底部padding间距            | number      | 0    |
 |paddingCenter |  水平间距        | number      | 150    |
 
 ## 🔗API

@@ -15,6 +15,7 @@ export const columns1 = [{
 }];
 
 export const sourceData1 = {
+  title: 'source标题',
   fields: [{
     id: '1',
     name: '性别',
@@ -38,7 +39,7 @@ export const sourceData1 = {
   }, {
     id: '6',
     name: '国籍',
-    desc: 'nationality'
+    desc: 'nation'
   }]
 };
 

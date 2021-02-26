@@ -70,7 +70,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
     }
 
     let result = transformInitData({
-      coloums: this.props.columns,
+      columns: this.props.columns,
       type: this.props.type || 'single',
       sortable: _.get(this.props, 'config.sortable') || false,
       sourceData: _.cloneDeep(this.props.sourceData),
