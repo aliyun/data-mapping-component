@@ -2,16 +2,20 @@
 
 export const columns1 = [{
   key: 'id',
+  title: 'ID',
   primaryKey: true,
   width: 30
 }, {
   key: 'name',
+  title: '名字',
 }, {
   key: 'desc',
+  title: '描述',
   width: 90
 }];
 
 export const sourceData1 = {
+  title: 'source标题',
   fields: [{
     id: '1',
     name: '性别',
@@ -35,7 +39,7 @@ export const sourceData1 = {
   }, {
     id: '6',
     name: '国籍',
-    desc: 'nationality'
+    desc: 'nation'
   }]
 };
 
