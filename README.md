@@ -47,7 +47,7 @@ npm install react-data-mapping
 
 ## API<a name='canvas-attr'></a>：
 
-<b>DataMapping属性</b>
+### <b>DataMapping属性</b>
 
 | 参数             | 说明                          | 类型                                 | 默认 值                                |
 |-----------------|-------------------------------|--------------------------------------|--------------------------------------|
@@ -64,9 +64,11 @@ npm install react-data-mapping
 | config          | 组件的额外属性配置，见[config Prop](#config) | <font color="c41d7f">object</font>   | { }                                   |                                           |
 | onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |                                      |                                           |
 
-<a name='columns-type'></a><b>Column</b>
+<br>
 
+### <a name='columns-type'></a><b>Column</b>
 列描述数据对象，是Columns中的一项
+
 | 参数        | 说明                    | 类型    | 默认值                  |
 |------------|-------------------------|---------|------------------------|
 | key        | 列数据在数据项中对应的路径|  <font color="c41d7f">string</font>| -                      |
@@ -74,8 +76,9 @@ npm install react-data-mapping
 | width      | 列宽度                   | <font color="c41d7f">number</font>| -                      |
 | primaryKey | 此属性是否为该组数据唯一标识 | <font color="c41d7f">boolean</font>| `必须且仅有一个属性为true` |
 
-<a name='source-data'></a><b>sourceData</b>
+<br>
 
+### <a name='source-data'></a><b>sourceData</b>
 来源表数据，当[type](#data-mapping-type)为 `single` 时，sourceData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，sourceData的类型为<font color='#c41d7f'>[ ]</font>
 
 | 参数        | 说明                    | 类型     | 默认值                    |
@@ -84,12 +87,14 @@ npm install react-data-mapping
 | title      | 列标题                   | <font color="c41d7f">string</font>  |  -                      |
 | fileds      | 数据数组                  | <font color="c41d7f">array</font>  | -                       |
 
-<a name='target-data'></a><b>targetData</b>
+<br>
 
+### <a name='target-data'></a><b>targetData</b>
 目标表数据，当[type](#data-mapping-type)为 `single` 时，targetData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，targetData的类型为<font color='#c41d7f'>[ ]</font>，属性详情见[sourceData](#source-data)
 
-<a name='config'></a><b>config</b>
+<br>
 
+### <a name='config'></a><b>config</b>
 组件的额外属性配置
 
 | 参数        | 说明                    | 类型    | 默认值                  |
@@ -99,8 +104,9 @@ npm install react-data-mapping
 | sortable        | 排序支持                   | <font color="c41d7f">boolean &#124; object</font>   |  -                      | 
 | linkNumLimit    | 连线数量支持 | <font color="c41d7f">number &#124; object</font>  |   -            |
 
-<a name='extraPos-prop'></a><b>extraPos</b>
+<br>
 
+### <a name='extraPos-prop'></a><b>extraPos</b>
 画布渲染的时候会留padding
 
 | 参数          |说明            | 类型         | 默认值|
