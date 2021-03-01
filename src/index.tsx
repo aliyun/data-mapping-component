@@ -79,7 +79,9 @@ export default class DataMapping extends React.Component<ComProps, any> {
       extraPos: _.get(this.props, 'config.extraPos'),
       linkNumLimit: _.get(this.props, 'config.linkNumLimit'),
       emptyContent: this.props.emptyContent,
-      emptyWidth: this.props.emptyWidth
+      emptyWidth: this.props.emptyWidth,
+      sourceClassName: this.props.sourceClassName || '',
+      targetClassName: this.props.targetClassName || ''
     });
     
     let canvasObj = {
