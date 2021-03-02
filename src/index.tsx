@@ -49,6 +49,7 @@ interface ComProps {
   config?: config,
   emptyContent?: string | JSX.Element,
   emptyWidth?: number | string,
+  onLoaded(canvas: any): void,
   onChange(data: any): void
 };
 
@@ -125,6 +126,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
         if (this.props.height === 'auto') {
           this.canvas._autoResize('height');
         }
+        this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this._addEventListener();
     }, _.get(this.props, 'config.delayDraw', 0));
