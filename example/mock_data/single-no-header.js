@@ -11,7 +11,6 @@ export const columns1 = [{
 }, {
   key: 'desc',
   title: '描述',
-  width: 90
 }];
 
 export const sourceData1 = {

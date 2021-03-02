@@ -28,6 +28,8 @@ ReactDOM.render((
           <Col flex={'600px'}>
             <DataMapping
               className='container single-no-header'
+              sourceClassName='single-no-header-source'
+              targetClassName='single-no-header-target'
               columns={columns1}
               sourceData={sourceData1}
               targetData={targetData1}
