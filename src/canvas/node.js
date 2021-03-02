@@ -3,7 +3,7 @@
 import {Node} from 'butterfly-dag';
 import $ from 'jquery';
 import * as _ from 'lodash';
-
+import {Tips} from 'butterfly-dag';
 import emptyDom from './empty';
 import Endpoint from './endpoint';
 
@@ -60,6 +60,18 @@ export default class TableNode extends Node {
     if (!this.fieldsList.length) {
       $(this.dom).find('.title').css('width', this.options._emptyWidth || 150);
     }
+    const fieldItems = $(this.dom).find('.field-item');
+    const fieldItemDoms = Array.prototype.slice.apply(fieldItems);
+    fieldItemDoms.forEach((_fieldItem, index) => {
+      if(_fieldItem.scrollWidth > _fieldItem.clientWidth) {
+        const fieldItem = $(fieldItems[index])
+        Tips.createTip({
+          className: 'field-item-tooltip',
+          targetDom: fieldItem[0],
+          genTipDom: () => fieldItem.text(),
+        });
+      }
+    })
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -68,9 +80,10 @@ export default class TableNode extends Node {
         .attr('class', 'node table-node')
         .attr('id', obj.name);
     }
-    if(_.get(obj, 'options.type') === 'source') {
+    if (!_.isEmpty(obj.options._sourceClassName) && _.get(obj, 'options.type') === 'source') {
       _dom.addClass(obj.options._sourceClassName)
-    } else {
+    }
+    if (!_.isEmpty(obj.options._targetClassName) && _.get(obj, 'options.type') === 'target') {
       _dom.addClass(obj.options._targetClassName)
     }
     const node = $(_dom);
@@ -153,12 +166,13 @@ export default class TableNode extends Node {
         });
         columns.forEach((_col) => {
           let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
-  
+          
           fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
           fieldDom.append(fieldItemDom);
           if (_col.primaryKey) {
             _primaryKey = _col.key;
           }
+          
         });
         if (sortFieldDom) {
           fieldDom.append(sortFieldDom);
@@ -184,6 +198,7 @@ export default class TableNode extends Node {
           id: _field[_primaryKey],
           dom: fieldDom
         })
+        
       });
     } else {
       const _emptyContent = _.get(this.options, '_emptyContent');
