@@ -68,6 +68,11 @@ export default class TableNode extends Node {
         .attr('class', 'node table-node')
         .attr('id', obj.name);
     }
+    if(_.get(obj, 'options.type') === 'source') {
+      _dom.addClass(obj.options._sourceClassName)
+    } else {
+      _dom.addClass(obj.options._targetClassName)
+    }
     const node = $(_dom);
     // 计算节点坐标
     if (obj.top !== undefined) {

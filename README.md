@@ -49,24 +49,27 @@ npm install react-data-mapping
 
 ### <b>DataMapping属性</b>
 
-| 参数             | 说明                          | 类型                                 | 默认 值                                |
-|-----------------|-------------------------------|--------------------------------------|--------------------------------------|
+| 参数             | 说明                          | 类型                                 | 默认值                                 |
+|-----------------|-------------------------------|-------------------------------------|--------------------------------------|
 | width           | 组件宽度                       | <font color="c41d7f">number</font>   | 默认500，自适应的话可以设置"auto"        |
 | height          | 组件高度                       | <font color="c41d7f">number</font>   | 默认500，自适应的话可以设置"auto"        |
 | <a name='data-mapping-type'></a>type| 映射类型   | <font color="c41d7f">string</font>   | `single` &#124; `mutiply` ，默认 `single` |
 | className       | 组件类名                       | <font color="c41d7f">string</font>   |            -                          |
 | sourceClassName | 来源表类名                     | <font color="c41d7f">string</font>   |            -                          |
 | targetClassName | 目标表类名                     | <font color="c41d7f">string</font>   |             -                         |
-| columns         | 每列的属性                     | <font color="c41d7f">[ColumnsType](#columns-type)[ ]</font>   | undefined     |
-| sourceData      | 来源表数据                     | <font color="c41d7f">[SourceDataType](#source-data) { } &#124; [ ]</font> | undefined |
-| targetData      | 目标表数据                     | <font color="c41d7f">[TargetDataType](#target-data) { } &#124; [ ]</font>                         | undefined |
-| mappingData     | 初始映射关系                    | <font color="c41d7f">array</font>    | [ ]                                  |                                           |
-| config          | 组件的额外属性配置，见[config Prop](#config) | <font color="c41d7f">object</font>   | { }                                   |                                           |
+| columns         | 每列的属性                     | <font color="c41d7f">[Columns](#columns-type) &#124; Array&#60;Columns&#62; </font>   | undefined     |
+| sourceData      | 来源表数据                     | <font color="c41d7f">[SourceData](#source-data) &#124; Object &#124; Array&#60;SourceData&#62;</font> | undefined |
+| targetData      | 目标表数据                     | <font color="c41d7f">[TargetData](#target-data) &#124; Object &#124; Array&#60;TargetData&#62;</font> | undefined |
+| mappingData     | 初始映射关系，见[mappingData Prop](#mapping-data)                   | <font color="c41d7f">array</font>    | [ ] |
+| emptyContent    | 当表字段为空时显示内容           | string &#124; ReactNode     | - |
+| emptyWidth      | 当表字段为空时，表容器的宽度      | string &#124; number     | 150 |
+| config           | 组件的额外属性配置，见[config Prop](#config) | <font color="c41d7f">object</font>   | { }                                   |                                           |
 | onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |                                      |                                           |
 
 <br>
 
 ### <a name='columns-type'></a><b>Column</b>
+
 列描述数据对象，是Columns中的一项
 
 | 参数        | 说明                    | 类型    | 默认值                  |
@@ -79,22 +82,36 @@ npm install react-data-mapping
 <br>
 
 ### <a name='source-data'></a><b>sourceData</b>
+
 来源表数据，当[type](#data-mapping-type)为 `single` 时，sourceData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，sourceData的类型为<font color='#c41d7f'>[ ]</font>
 
-| 参数        | 说明                    | 类型     | 默认值                    |
-|------------|-------------------------|---------|------------------------|
-| id         | 列标识， `single` 类型下，id可不填， `mutiply` 为必填 | <font color="c41d7f">string</font>  | -               |
-| title      | 列标题                   | <font color="c41d7f">string</font>  |  -                      |
-| fileds      | 数据数组                  | <font color="c41d7f">array</font>  | -                       |
+| 参数                                  | 说明                                             | 类型     | 默认值                    |
+|--------------------------------------|--------------------------------------------------|---------|--------------------------|
+| <a name='source-data-id'><a>id       | 列标识， `single` 类型下，id可不填， `mutiply` 为必填 | <font color="c41d7f">string</font>  | -         |
+| title                                | 列标题                                            | <font color="c41d7f">string</font>  |  -        |
+| fileds                                | 数据数组                                          | <font color="c41d7f">array</font>    | -         |
 
 <br>
 
 ### <a name='target-data'></a><b>targetData</b>
+
 目标表数据，当[type](#data-mapping-type)为 `single` 时，targetData的类型为<font color='#c41d7f'>{ }</font>；当[type](#data-mapping-type)为 `mutiply` 时，targetData的类型为<font color='#c41d7f'>[ ]</font>，属性详情见[sourceData](#source-data)
 
 <br>
 
+### <a name='mapping-data'></a><b>mappingData</b>
+
+| 参数        | 说明                    | 类型     |
+|------------|-------------------------|---------|
+| source     | 来源表当前行数据的唯一标识  | <font color="c41d7f">-</font>  |
+| target     | 目标表当前行数据的唯一标识  | <font color="c41d7f">-</font>  |
+| sourceNode | 来源表的id，见[sourceData ID](#source-data-id)   | <font color="c41d7f">string</font>|
+| targetNode | 目标表的id，见[targetData ID](#target-data)   | <font color="c41d7f">string</font>  |
+
+<br>
+
 ### <a name='config'></a><b>config</b>
+
 组件的额外属性配置
 
 | 参数        | 说明                    | 类型    | 默认值                  |
@@ -107,7 +124,8 @@ npm install react-data-mapping
 <br>
 
 ### <a name='extraPos-prop'></a><b>extraPos</b>
-画布渲染的时候会留padding
+
+画布渲染的时候预留padding
 
 | 参数          |说明            | 类型         | 默认值|
 |-----------   |----------------|-------------|------|

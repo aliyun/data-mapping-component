@@ -2,8 +2,8 @@
 
 export const columns3 = [{
   key: 'id',
+  width: 30,
   primaryKey: true,
-  width: 30
 }, {
   key: 'name',
 }, {
