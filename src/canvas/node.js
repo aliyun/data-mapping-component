@@ -1,6 +1,7 @@
 'use strict';
 
 import {Node} from 'butterfly-dag';
+import * as ReactDOM from 'react-dom';
 import $ from 'jquery';
 import * as _ from 'lodash';
 import {Tips} from 'butterfly-dag';
@@ -152,7 +153,7 @@ export default class TableNode extends Node {
     let type = _.get(this, 'options.type', '');
 
     if (fields && fields.length) {
-      fields.forEach((_field) => {
+      fields.forEach((_field, index) => {
         let fieldDom = $('<div class="field"></div>');
         let _primaryKey = columns[0].key;
         let sortFieldDom = undefined;
@@ -165,10 +166,16 @@ export default class TableNode extends Node {
           'line-height': this.ROW_HEIGHT + 'px'
         });
         columns.forEach((_col) => {
-          let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
-          
-          fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
-          fieldDom.append(fieldItemDom);
+          if (_col.render) {
+            let fieldItemDom = $(`<span class="field-item"></span>`);
+            fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
+            ReactDOM.render(_col.render(_field[_col.key], _field, index), fieldItemDom[0]);
+            fieldDom.append(fieldItemDom);
+          } else {
+            let fieldItemDom = $(`<span class="field-item">${_field[_col.key]}</span>`);
+            fieldItemDom.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
+            fieldDom.append(fieldItemDom);
+          }
           if (_col.primaryKey) {
             _primaryKey = _col.key;
           }

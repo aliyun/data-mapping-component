@@ -1,4 +1,5 @@
 'use strict';
+import React from 'react';
 
 export const columns1 = [{
   key: 'id',
@@ -8,6 +9,9 @@ export const columns1 = [{
 }, {
   key: 'name',
   title: '名字',
+  render: (val, row, index) => {
+    return <div>{val}</div>
+  }
 }, {
   key: 'desc',
   title: '描述',
