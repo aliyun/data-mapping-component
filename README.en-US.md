@@ -73,6 +73,8 @@ A column describes a data object and is an item in a Columns.
 | title      | The column header displays text       |<font color="c41d7f">string</font>| -                      |
 | width      | The column width                      | <font color="c41d7f">number</font>| -                      |
 | primaryKey | Whether this property is uniquely identified for the set of data | <font color="c41d7f">boolean</font>| `必须且仅有一个属性为true` |
+| render     |Custom rendering function, parameters are the value of the current row, the current row data, row index | <font color="c41d7f">function(text, record, index) {}</font>|  - |
+
 
 <br>
 
@@ -140,6 +142,7 @@ interface columns { // setting the attributes of each column
   key: string; // the unique mark of each column, corresponding to the key value on the data
   width ? : number; // width of each column
   primaryKey: boolean // whether the value corresponding to the key in this column is used as a unique sign
+  render?(text: any, record: any, index: number): void; // Custom rendering function
 }
 
 interface config {

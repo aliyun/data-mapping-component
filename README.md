@@ -74,10 +74,11 @@ npm install react-data-mapping
 
 | 参数        | 说明                    | 类型    | 默认值                  |
 |------------|-------------------------|---------|------------------------|
-| key        | 列数据在数据项中对应的路径|  <font color="c41d7f">string</font>| -                      |
+| key        | 列数据在数据项中对应的路径  |  <font color="c41d7f">string</font>| -                      |
 | title      | 列头显示文字              |<font color="c41d7f">string</font>| -                      |
 | width      | 列宽度                   | <font color="c41d7f">number</font>| -                      |
 | primaryKey | 此属性是否为该组数据唯一标识 | <font color="c41d7f">boolean</font>| `必须且仅有一个属性为true` |
+| render     | 自定义渲染函数，参数分别为当前行的值，当前行数据，行索引 | <font color="c41d7f">function(text, record, index) {}</font>| -  |
 
 <br>
 

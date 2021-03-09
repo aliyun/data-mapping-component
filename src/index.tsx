@@ -9,11 +9,13 @@ import 'butterfly-dag/dist/index.css';
 import {transformInitData, transformChangeData} from './adaptor';
 import * as _ from 'lodash';
 
+// 跟antd的table的column的概念类似
 interface columns {
   title?: string,
   key: string,
   width?: number,
-  primaryKey: boolean
+  primaryKey: boolean,
+  render?(text: any, record: any, index: number): void
 }
 
 interface config {
