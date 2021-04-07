@@ -114,7 +114,10 @@ ReactDOM.render((
               width={600}
               height={600}
               config={{
-                linkNumLimit: 1,
+                linkNumLimit: {
+                  source:2,
+                  target:1,
+                },
                 extraPos: {
                   paddingLeft: 10,
                   paddingRight: 10,

@@ -118,6 +118,9 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (typeof _linkNumLimit === 'number' && !isNaN(_linkNumLimit))  {
       canvasObj.theme.endpoint.limitNum = _linkNumLimit;
     }
+    if (Object.prototype.toString.call(_linkNumLimit) === '[object Object]'){
+      canvasObj.theme.endpoint.limitNum = _linkNumLimit;
+    }
     this.canvas = new Canvas(canvasObj);
     setTimeout(() => {
       this.canvas.draw(result, () => {

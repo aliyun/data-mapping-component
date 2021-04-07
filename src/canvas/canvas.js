@@ -136,17 +136,46 @@ export default class MappindCanvas extends Canvas {
 
   // 检查连接数量限制
   _checkLinkNum(point, targetEdge, type) {
-    let _linkNums = this.edges.filter((_edge) => {
-      return _edge[`${type}Node`].id === point.nodeId && _edge[`${type}Endpoint`].id === point.id;
-    }).length + 1;
-
-    if (_linkNums > point.limitNum) {
-      console.warn(`id为${point.id}的锚点限制了${point.limitNum}条连线`);
+    let _linkNums =
+      this.edges.filter((_edge) => {
+        return (
+          _edge[`${type}Node`].id === point.nodeId &&
+          _edge[`${type}Endpoint`].id === point.id
+        );
+      }).length + 1;
+    let _isValidLink = true;
+    let _pointLimitedNum = -1;
+    if (point.limitNum && typeof point.limitNum === "number") {
+      if (_linkNums > point.limitNum) {
+        _pointLimitedNum = point.limitNum;
+        _isValidLink = false;
+      }
+    }
+    if (
+      point.limitNum &&
+      Object.prototype.toString.call(point.limitNum) === "[object Object]"
+    ) {
+      if (point.limitNum.source && type === "source") {
+        if (_linkNums > point.limitNum.source) {
+          _pointLimitedNum = point.limitNum.source;
+          _isValidLink = false;
+        }
+      }
+      if (point.limitNum.target && type === "target") {
+        if (_linkNums > point.limitNum.target) {
+          _pointLimitedNum= point.limitNum.target;
+          _isValidLink = false;
+        }
+      }
+    }
+    if (!_isValidLink) {
+      console.warn(
+        `id为${point.id}的锚点限制了${_pointLimitedNum}条连线`
+      );
       targetEdge && targetEdge.destroy();
       this._dragEdges = [];
       this._dragType = null;
-      return false;
     }
-    return true;
+    return _isValidLink;
   }
 };

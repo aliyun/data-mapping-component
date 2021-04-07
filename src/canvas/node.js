@@ -269,7 +269,7 @@ export default class TableNode extends Node {
 
     if (typeof(sortable) === 'boolean') this.width += this.SORTABLE_WIDTH;
     
-    if (Object.prototype.toString.call(sortable) === '[Object Object]') {
+    if (Object.prototype.toString.call(sortable) === '[object Object]') {
       if (type === 'source') this.width += this.SORTABLE_WIDTH;
       if (type === 'target') this.width += this.SORTABLE_WIDTH;
     }
