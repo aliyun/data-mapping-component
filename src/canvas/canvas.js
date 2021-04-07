@@ -139,13 +139,34 @@ export default class MappindCanvas extends Canvas {
     let _linkNums = this.edges.filter((_edge) => {
       return _edge[`${type}Node`].id === point.nodeId && _edge[`${type}Endpoint`].id === point.id;
     }).length + 1;
-
-    if (_linkNums > point.limitNum) {
-      console.warn(`id为${point.id}的锚点限制了${point.limitNum}条连线`);
-      targetEdge && targetEdge.destroy();
-      this._dragEdges = [];
-      this._dragType = null;
-      return false;
+    if(point.limitNum && typeof point.limitNum === 'number'){
+      if (_linkNums > point.limitNum) {
+        console.warn(`id为${point.id}的锚点限制了${point.limitNum}条连线`);
+        targetEdge && targetEdge.destroy();
+        this._dragEdges = [];
+        this._dragType = null;
+        return false;
+      }
+    }
+    if(point.limitNum && Object.prototype.toString.call(point.limitNum) === '[object Object]'){
+      if(point.limitNum.source && type==='source'){
+          if(_linkNums>point.limitNum.source){
+            console.warn(`id为${point.id}的锚点限制了${point.limitNum.source}条连线`);
+            targetEdge && targetEdge.destroy();
+            this._dragEdges = [];
+            this._dragType = null;
+            return false;
+          }
+      }
+      if(point.limitNum.target && type==='target'){
+        if(_linkNums>point.limitNum.target){
+          console.warn(`id为${point.id}的锚点限制了${point.limitNum.target}条连线`);
+          targetEdge && targetEdge.destroy();
+          this._dragEdges = [];
+          this._dragType = null;
+          return false;
+        }
+    }
     }
     return true;
   }
