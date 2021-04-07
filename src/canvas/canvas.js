@@ -144,10 +144,10 @@ export default class MappindCanvas extends Canvas {
         );
       }).length + 1;
     let _isValidLink = true;
-    let limitedNum = -1;
+    let _pointLimitedNum = -1;
     if (point.limitNum && typeof point.limitNum === "number") {
       if (_linkNums > point.limitNum) {
-        limitedNum = point.limitNum;
+        _pointLimitedNum = point.limitNum;
         _isValidLink = false;
       }
     }
@@ -157,20 +157,20 @@ export default class MappindCanvas extends Canvas {
     ) {
       if (point.limitNum.source && type === "source") {
         if (_linkNums > point.limitNum.source) {
-          limitedNum = point.limitNum.source;
+          _pointLimitedNum = point.limitNum.source;
           _isValidLink = false;
         }
       }
       if (point.limitNum.target && type === "target") {
         if (_linkNums > point.limitNum.target) {
-          limitedNum= point.limitNum.target;
+          _pointLimitedNum= point.limitNum.target;
           _isValidLink = false;
         }
       }
     }
     if (!_isValidLink) {
       console.warn(
-        `id为${point.id}的锚点限制了${limitedNum}条连线`
+        `id为${point.id}的锚点限制了${_pointLimitedNum}条连线`
       );
       targetEdge && targetEdge.destroy();
       this._dragEdges = [];
