@@ -53,8 +53,8 @@ interface ComProps {
   emptyWidth?: number | string,
   onLoaded(canvas: any): void,
   onChange(data: any): void,
-  onColMouseOver?(col:any):void,
-  onColMouseOur?(col:any):void,
+  onRowMouseOver?(row:any):void,
+  onRowMouseOur?(row:any):void,
 };
 
 export default class DataMapping extends React.Component<ComProps, any> {
@@ -228,12 +228,12 @@ export default class DataMapping extends React.Component<ComProps, any> {
     // 聚焦链路
     this.canvas.on('custom.endpoint.focus', (data: { point: any; }) => {
       this.canvas._focusChain(data.point);
-      this.props.onColMouseOver && this.props.onColMouseOver(data.point);
+      this.props.onRowMouseOver && this.props.onRowMouseOver(data.point);
     });
     // 失焦链路
     this.canvas.on('custom.endpoint.unFocus', (data: { point: any; }) => {
       this.canvas._unFocusChain(data.point);
-      this.props.onColMouseOut && this.props.onColMouseOut(data.point);
+      this.props.onRowMouseOut && this.props.onRowMouseOut(data.point);
     });
 
     // 字段重新排列
