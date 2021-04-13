@@ -51,6 +51,7 @@ interface ComProps {
   config?: config,
   emptyContent?: string | JSX.Element,
   emptyWidth?: number | string,
+  isConnect?(edge: any): boolean,
   onLoaded(canvas: any): void,
   onChange(data: any): void,
   onRowMouseOver?(row:any):void,
@@ -184,18 +185,38 @@ export default class DataMapping extends React.Component<ComProps, any> {
     let _isInit = true;
     this.canvas.on('system.link.connect', (data: { links: any; }) => {
       let addEdges = _addLinks(data.links || []);
+      let result = [];
+      addEdges.forEach((item) => {
+        let isConnect = true;
+        this.props.isConnect && (isConnect = this.props.isConnect(item));
+        if (isConnect) {
+          result.push(item);
+        } else {
+          this.canvas.removeEdge(item, true);
+        }
+      });
       if (!_isInit) {
         this.onChange();
       }
       _isInit = false;
-      this.canvas._linkedChain(addEdges);
+      this.canvas._linkedChain(result);
     });
 
     this.canvas.on('system.link.reconnect', (data: { addLinks: any, delLinks: any }) => {
       let addEdges = _addLinks(data.addLinks || []);
+      let result = [];
+      addEdges.forEach((item) => {
+        let isConnect = true;
+        this.props.isConnect && (isConnect = this.props.isConnect(item));
+        if (isConnect) {
+          result.push(item);
+        } else {
+          this.canvas.removeEdge(item, true);
+        }
+      });
       this.onChange();
       this.canvas._unLinkedChain(data.delLinks);
-      this.canvas._linkedChain(addEdges);
+      this.canvas._linkedChain(result);
     });
 
     this.canvas.on('system.links.delete', (data: { links: any; }) => {
