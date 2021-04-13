@@ -49,8 +49,7 @@ export let transformInitData = (data) => {
       sourceNode: item.sourceNode || sourceNodes[0].id,
       source: item.source,
       targetNode: item.targetNode || targetNodes[0].id,
-      target: item.target,
-      _isConnect: data.isConnect
+      target: item.target
     }
   });
   return {
