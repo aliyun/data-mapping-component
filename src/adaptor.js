@@ -50,6 +50,7 @@ export let transformInitData = (data) => {
       source: item.source,
       targetNode: item.targetNode || targetNodes[0].id,
       target: item.target,
+      _isConnect: data.isConnect
     }
   });
   return {
