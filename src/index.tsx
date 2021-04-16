@@ -55,7 +55,7 @@ interface ComProps {
   onLoaded(canvas: any): void,
   onChange(data: any): void,
   onRowMouseOver?(row:any):void,
-  onRowMouseOur?(row:any):void,
+  onRowMouseOut?(row:any):void,
 };
 
 export default class DataMapping extends React.Component<ComProps, any> {

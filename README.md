@@ -64,7 +64,10 @@ npm install react-data-mapping
 | emptyContent    | 当表字段为空时显示内容           | string &#124; ReactNode     | - |
 | emptyWidth      | 当表字段为空时，表容器的宽度      | string &#124; number     | 150 |
 | config           | 组件的额外属性配置，见[config Prop](#config) | <font color="c41d7f">object</font>   | { }                                   |                                           |
-| onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |                                      |                                           |
+| isConnect       | 每次连线前触发，判断是否可以连线   | <font color="c41d7f">function(edge): boolean</font> |   
+| onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |     
+| onRowMouseOver  | 鼠标移入某一行数据时触发          | <font color="c41d7f">function(row)</font> | 
+| onRowMouseOut   | 鼠标移出某一行数据时触发          | <font color="c41d7f">function(row)</font> |                                  |                                           |
 
 <br>
 
@@ -178,7 +181,10 @@ interface ComProps { // 组件props属性
   mappingData: Array < any > ; // 初始化对应关系数据,可参考demo
   emptyContent ? : string | JSX.Element; // 当表字段为空时显示内容
   emptyWidth ? : number | string; // 当表字段为空时表容器宽度
-  onChange(data: any): void // 每次连线都是触发onChange事件
+  isConnect?(edge: any): boolean; // 每次连线前触发isConnect,返回true则进行连线,false则不会
+  onChange(data: any): void; // 每次连线都是触发onChange事件
+  onRowMouseOver?(row:any):void, // 鼠标移入某一行数据时触发
+  onRowMouseOut?(row:any):void, // 鼠标移出某一行数据时触发
 };
 ```
 

@@ -59,7 +59,10 @@ npm install react-data-mapping
 | emptyContent    | Show content when table field is empty | string &#124; ReactNode     | - |
 | emptyWidth      | Table container width when table field is empty, [config Prop](#config) | string &#124; number  | 150 |
 | config     | The extra configuration of components，please reviewe the detailed API below        | object            | {}                          |
-| onChange        | Event triggered by connection | function     |                                                                        |
+| isConnect       | Event triggered before each edge connection to determine whether it can be connected | <font color="c41d7f">function(edge): boolean</font> |   
+| onChange        | Event triggered by connection | function     |      
+| onRowMouseOver  | Event triggered when the mouse moves onto a row of data   | <font color="c41d7f">function(row)</font> | 
+| onRowMouseOut   | Event triggered when the mouse moves out of a row of data          | <font color="c41d7f">function(row)</font> |                                                                               |
 
 <br>
 
@@ -177,7 +180,10 @@ interface ComProps { // component props
   mappingData: Array < any > ; // initialize correspondence data, please refer to demo
   emptyContent ? : string | JSX.Element; // show content when table field is empty
   emptyWidth ? : number | string; // table container width when table field is empty
+  isConnect?(edge: any): boolean; // isConnect event is triggered before you connect an edge, return true, it will connect, and false will not
   onChange(data: any): void // onChange event is triggered every time you connect edge
+  onRowMouseOver?(row:any):void, // onRowMouseOver event is triggered when you move the cursor onto a row of data
+  onRowMouseOut?(row:any):void, // onRowMouseOver event is triggered when you move the cursor out of a row of data
 };
 ```
 
