@@ -50,12 +50,13 @@ class Com extends React.Component {
             columns={columns1}
             sourceData={sourceData1}
             targetData={targetData1}
-            mappingData={this.state.mappingData1}
+            // mappingData={this.state.mappingData1}
+            mappingData={mappingData1}
             width={600}
             height={600}
           />
         </Col>
-        {/* <Col flex={'600px'}>
+        <Col flex={'600px'}>
           <DataMapping
             className='container single-with-header'
             columns={columns2}
@@ -144,7 +145,7 @@ class Com extends React.Component {
               }
             }}
           />
-        </Col> */}
+        </Col>
       </Row>
     )
   }
