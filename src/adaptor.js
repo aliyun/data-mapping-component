@@ -111,3 +111,37 @@ export let transformChangeData = (data, comType) => {
   }
   return result;
 };
+
+
+export let diffPropsData = (newData, oldData) => {
+
+  const isSameField = (a, b) => a.id === b.id;
+  let sourceAddFileds = _.differenceWith(_.get(newData, 'nodes[0].fields'), _.get(oldData, 'nodes[0].options.fields'), isSameField);
+  let sourceRmFileds = _.differenceWith(_.get(oldData, 'nodes[0].options.fields'), _.get(newData, 'nodes[0].fields'), isSameField);
+  let targetAddFileds = _.differenceWith(_.get(newData, 'nodes[1].fields'), _.get(oldData, 'nodes[1].options.fields'), isSameField);
+  let targetRmFileds = _.differenceWith(_.get(oldData, 'nodes[1].options.fields'), _.get(newData, 'nodes[1].fields'), isSameField);
+
+  const isSameEdge = (a, b) => {
+    return (
+      a.sourceNode === b.sourceNode &&
+      a.targetNode === b.targetNode &&
+      a.source === b.source &&
+      a.target === b.target
+    );
+  }
+
+  let addEdges = _.differenceWith(newData.edges, oldData.edges, isSameEdge);
+  let rmEdges = _.differenceWith(oldData.edges, newData.edges, isSameEdge);
+
+  let result = {
+    sourceAddFileds,
+    sourceRmFileds,
+    targetAddFileds,
+    targetRmFileds,
+    addEdges,
+    rmEdges
+  };
+
+
+  return result;
+};

@@ -3,7 +3,7 @@
 import {Canvas} from 'butterfly-dag';
 import $ from 'jquery';
 
-export default class MappindCanvas extends Canvas {
+export default class MappingCanvas extends Canvas {
   constructor(opts) {
     super(opts);
     this.extraPos = opts.extraPos;
