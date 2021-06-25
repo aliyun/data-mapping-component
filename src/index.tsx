@@ -172,7 +172,6 @@ export default class DataMapping extends React.Component<ComProps, any> {
         });
       })
     });
-
     if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
     }
@@ -206,7 +205,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
         let _newSource = _oldSource.indexOf('-right') !== -1 ? _oldSource : _oldSource + '-right';
         let _newTarget = _oldTarget.indexOf('-left') !== -1 ? _oldTarget : _oldTarget + '-left';
         return {
-          id: item.options.id,
+          id: item.options.id || `${item.options.sourceNode}-${item.options.targetNode}`,
           sourceNode: item.options.sourceNode,
           targetNode: item.options.targetNode,
           source: _newSource,
