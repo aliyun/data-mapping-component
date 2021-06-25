@@ -142,7 +142,6 @@ export let diffPropsData = (newData, oldData) => {
     rmEdges
   };
 
-  console.log(result);
 
   return result;
 };
