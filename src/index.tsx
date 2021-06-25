@@ -6,7 +6,7 @@ import * as ReactDOM from 'react-dom';
 import './index.less';
 import Canvas from './canvas/canvas';
 import 'butterfly-dag/dist/index.css';
-import {transformInitData, transformChangeData} from './adaptor';
+import {transformInitData, transformChangeData, diffPropsData} from './adaptor';
 import * as _ from 'lodash';
 
 // 跟antd的table的column的概念类似
@@ -60,10 +60,12 @@ interface ComProps {
 
 export default class DataMapping extends React.Component<ComProps, any> {
   protected canvas: any;
+  private _isRendering: boolean;
   props: any;
   constructor(props: ComProps) {
     super(props);
     this.canvas = null;
+    this._isRendering = false;
   }
   componentDidMount() {
     let root = ReactDOM.findDOMNode(this) as HTMLElement;
@@ -125,6 +127,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
       canvasObj.theme.endpoint.limitNum = _linkNumLimit;
     }
     this.canvas = new Canvas(canvasObj);
+    this._isRendering = true;
     setTimeout(() => {
       this.canvas.draw(result, () => {
         this.canvas._calcPos();
@@ -134,10 +137,53 @@ export default class DataMapping extends React.Component<ComProps, any> {
         if (this.props.height === 'auto') {
           this.canvas._autoResize('height');
         }
+        this._isRendering = false;
         this.props.onLoaded && this.props.onLoaded(this.canvas);
       });
       this._addEventListener();
     }, _.get(this.props, 'config.delayDraw', 0));
+  }
+  shouldComponentUpdate(newProps: ComProps, newState: any) {
+
+    if (this._isRendering) {
+      return false;
+    }
+
+    let result = transformInitData({
+      columns: newProps.columns,
+      type: newProps.type || 'single',
+      sortable: _.get(newProps, 'config.sortable') || false,
+      sourceData: _.cloneDeep(newProps.sourceData),
+      targetData: _.cloneDeep(newProps.targetData),
+      mappingData: _.cloneDeep(newProps.mappingData),
+      extraPos: _.get(newProps, 'config.extraPos'),
+      linkNumLimit: _.get(newProps, 'config.linkNumLimit'),
+      emptyContent: newProps.emptyContent,
+      emptyWidth: newProps.emptyWidth,
+      sourceClassName: newProps.sourceClassName || '',
+      targetClassName: newProps.targetClassName || ''
+    });
+    let diffInfo = diffPropsData(result, {
+      nodes: this.canvas.nodes,
+      edges: this.canvas.edges.map((item) => {
+        return _.assign(item.options, {
+          source: (item.options.source || '').replace('-right', ''),
+          target: (item.options.target || '').replace('-left', ''),
+        });
+      })
+    });
+
+    if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
+      this.canvas.addEdges(diffInfo.addEdges);
+    }
+
+    if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
+      this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
+    }
+
+    // todo: diff fields
+
+    return false;
   }
   onChange() {
     let result = transformChangeData(this.canvas.getDataMap(), this.props.type || 'single');
