@@ -35,9 +35,9 @@ class Com extends React.Component {
     //     target: '7'
     //   });
     //   this.setState({
-    //     mappingData1: mapping
+    //     mappingData1: []
     //   });
-    // }, 500);
+    // }, 5000);
   }
   render() {
     return (
