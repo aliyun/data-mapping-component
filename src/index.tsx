@@ -101,7 +101,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
       moveable: false,
       theme: {
         edge: {
-          type: 'AdvancedBezier',
+          type: 'endpoint',
+          shapeType: 'AdvancedBezier',
           arrow: true,
           isExpandWidth: true,
           arrowPosition: 1,
@@ -172,6 +173,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
         });
       })
     });
+
     if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
     }
