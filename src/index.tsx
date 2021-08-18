@@ -48,6 +48,7 @@ interface ComProps {
   sourceData: Array<any> | Object,
   targetData: Array<any> | Object,
   mappingData: Array<any>,
+  readonly?: boolean,
   config?: config,
   emptyContent?: string | JSX.Element,
   emptyWidth?: number | string,
@@ -120,6 +121,10 @@ export default class DataMapping extends React.Component<ComProps, any> {
       },
       extraPos: _.get(this.props, 'config.extraPos')
     };
+    if (!!this.props.readonly) {
+      canvasObj.disLinkable = false;
+      canvasObj.linkable = false;
+    }
     let _linkNumLimit = _.get(this.props, 'config.linkNumLimit')
     if (typeof _linkNumLimit === 'number' && !isNaN(_linkNumLimit))  {
       canvasObj.theme.endpoint.limitNum = _linkNumLimit;
