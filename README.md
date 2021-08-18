@@ -67,7 +67,8 @@ npm install react-data-mapping
 | isConnect       | 每次连线前触发，判断是否可以连线   | <font color="c41d7f">function(edge): boolean</font> |   
 | onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |     
 | onRowMouseOver  | 鼠标移入某一行数据时触发          | <font color="c41d7f">function(row)</font> | 
-| onRowMouseOut   | 鼠标移出某一行数据时触发          | <font color="c41d7f">function(row)</font> |                                  |                                           |
+| onRowMouseOut   | 鼠标移出某一行数据时触发          | <font color="c41d7f">function(row)</font> |      
+| readonly        | 是否只读                        | <font color="c41d7f">boolean</font>      | 默认false                        |
 
 <br>
 
