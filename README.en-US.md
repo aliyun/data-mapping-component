@@ -62,7 +62,8 @@ npm install react-data-mapping
 | isConnect       | Event triggered before each edge connection to determine whether it can be connected | <font color="c41d7f">function(edge): boolean</font> |   
 | onChange        | Event triggered by connection | function     |      
 | onRowMouseOver  | Event triggered when the mouse moves onto a row of data   | <font color="c41d7f">function(row)</font> | 
-| onRowMouseOut   | Event triggered when the mouse moves out of a row of data          | <font color="c41d7f">function(row)</font> |                                                                               |
+| onRowMouseOut   | Event triggered when the mouse moves out of a row of data          | <font color="c41d7f">function(row)</font> 
+| readonly        | Read only                        | <font color="c41d7f">boolean</font>      | Default false         |
 
 <br>
 
