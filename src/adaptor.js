@@ -115,11 +115,47 @@ export let transformChangeData = (data, comType) => {
 
 export let diffPropsData = (newData, oldData) => {
 
-  const isSameField = (a, b) => a.id === b.id;
-  let sourceAddFileds = _.differenceWith(_.get(newData, 'nodes[0].fields'), _.get(oldData, 'nodes[0].options.fields'), isSameField);
-  let sourceRmFileds = _.differenceWith(_.get(oldData, 'nodes[0].options.fields'), _.get(newData, 'nodes[0].fields'), isSameField);
-  let targetAddFileds = _.differenceWith(_.get(newData, 'nodes[1].fields'), _.get(oldData, 'nodes[1].options.fields'), isSameField);
-  let targetRmFileds = _.differenceWith(_.get(oldData, 'nodes[1].options.fields'), _.get(newData, 'nodes[1].fields'), isSameField);
+
+  let _newNodes = newData.nodes || [];
+  let _oldNodes = oldData.nodes || [];
+
+  const isSameId = (a, b) => a.id === b.id;
+
+  let addNodes = _.differenceWith(newData.nodes, oldData.nodes, isSameId);
+  let rmNodes = _.differenceWith(oldData.nodes, newData.nodes, isSameId);
+  
+
+  let addFields = [];
+  let rmFields = [];
+
+
+  newData.nodes.forEach((_newNode) => {
+    let _oldNode = _.find(oldData.nodes, _node => _node.id === _newNode.id);
+    if (_oldNode) {
+      let result = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameId);
+      if (result.length > 0) {
+        addFields.push({
+          id: _newNode.id,
+          type: _newNode.type,
+          fields: result
+        });
+      }
+    }
+  });
+  
+  oldData.nodes.forEach((_oldNode) => {
+    let _newNode = _.find(newData.nodes, _node => _node.id === _oldNode.id);
+    if (_newNode) {
+      let result = _.differenceWith(_.get(_oldNode, 'options.fields'), _newNode.fields, isSameId);
+      if (result.length > 0) {
+        rmFields.push({
+          id: _newNode.id,
+          type: _newNode.type,
+          fields: result
+        });
+      }
+    }
+  });
 
   const isSameEdge = (a, b) => {
     return (
@@ -134,12 +170,12 @@ export let diffPropsData = (newData, oldData) => {
   let rmEdges = _.differenceWith(oldData.edges, newData.edges, isSameEdge);
 
   let result = {
-    sourceAddFileds,
-    sourceRmFileds,
-    targetAddFileds,
-    targetRmFileds,
     addEdges,
-    rmEdges
+    rmEdges,
+    addNodes,
+    rmNodes,
+    addFields,
+    rmFields
   };
 
 

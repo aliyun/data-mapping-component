@@ -186,8 +186,24 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
       this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
     }
+    
+    if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
+      // console.log(diffInfo.addNodes);
+      this.canvas.addNodes(diffInfo.addNodes);
+      this.canvas._calcPos();
+    }
 
-    // todo: diff fields
+    if (diffInfo.rmNodes && diffInfo.rmNodes.length > 0) {
+      this.canvas.removeNodes(diffInfo.rmNodes);
+    }
+
+    if (diffInfo.addFields && diffInfo.addFields.length > 0) {
+      this.canvas.addFields(diffInfo.addFields);
+    }
+
+    if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
+      this.canvas.removeFields(diffInfo.rmFields);
+    }
 
     return false;
   }

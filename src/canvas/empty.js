@@ -11,7 +11,7 @@ const isReactEle = (HTMLElement) => {
  * params {JSX.Element | String} config.content
  * params {Number | String} config.width
  */
-export default (config) => {
+export default (config, callback) => {
   const content = config.content;
   let width = config.width;
 
@@ -27,7 +27,7 @@ export default (config) => {
 
   if (content) {
     if (isReactEle(content)) {
-      emptyDom = ReactDOM.render(content, document.createElement('div'));
+      emptyDom = ReactDOM.render(content, document.createElement('div'), callback);
     } else {
       emptyDom = $(content);
     }
