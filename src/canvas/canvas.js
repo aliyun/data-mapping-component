@@ -178,4 +178,16 @@ export default class MappingCanvas extends Canvas {
     }
     return _isValidLink;
   }
+  addFields(data) {
+    data.forEach((item) => {
+      let node = this.getNode(item.id);
+      node && node.addFields(item.fields);
+    });
+  }
+  removeFields(data) {
+    data.forEach((item) => {
+      let node = this.getNode(item.id);
+      node && node.removeFields(item.fields);
+    });
+  }
 };

@@ -56,23 +56,16 @@ export default class TableNode extends Node {
     });
   }
   mounted() {
+    // 生成endpoint
     this._createNodeEndpoint();
+
     // 保持title宽度
     if (!this.fieldsList.length) {
       $(this.dom).find('.title').css('width', this.options._emptyWidth || 150);
     }
-    const fieldItems = $(this.dom).find('.field-item');
-    const fieldItemDoms = Array.prototype.slice.apply(fieldItems);
-    fieldItemDoms.forEach((_fieldItem, index) => {
-      if(_fieldItem.scrollWidth > _fieldItem.clientWidth) {
-        const fieldItem = $(fieldItems[index])
-        Tips.createTip({
-          className: 'field-item-tooltip',
-          targetDom: fieldItem[0],
-          genTipDom: () => fieldItem.text(),
-        });
-      }
-    })
+
+    // 加tips
+    this._addFieldItemTips();
   }
   draw(obj) {
     let _dom = obj.dom;
@@ -114,6 +107,20 @@ export default class TableNode extends Node {
       $(container).append(titleDom);
     }
   }
+  _addFieldItemTips(fieldItems) {
+    const _fieldItems = fieldItems || $(this.dom).find('.field-item');
+    const fieldItemDoms = Array.prototype.slice.apply(_fieldItems);
+    fieldItemDoms.forEach((_fieldItem, index) => {
+      if(_fieldItem.scrollWidth > _fieldItem.clientWidth) {
+        const fieldItem = $(_fieldItems[index])
+        Tips.createTip({
+          className: 'field-item-tooltip',
+          targetDom: fieldItem[0],
+          genTipDom: () => fieldItem.text(),
+        });
+      }
+    })
+  }
   _createFieldTitle(container = this.dom) {
     let columns = _.get(this, 'options._columns', []);
     let hasFieldTitle = _.some(columns, (item) => {
@@ -145,12 +152,13 @@ export default class TableNode extends Node {
     sortFieldDom.find('.move-down').click(this._moveDown.bind(this, field));
     return sortFieldDom;
   }
-  _createFields(container = this.dom) {
-    let fields = _.get(this, 'options.fields');
+  _createFields(container = $(this.dom), addFields = []) {
+    let fields = addFields.length === 0 ? _.get(this, 'options.fields') : addFields;
     let columns = _.get(this, 'options._columns', []);
     let sortable = _.get(this, 'options.sortable');
     let isObject = Object.prototype.toString.call(sortable) === "[object Object]";
     let type = _.get(this, 'options.type', '');
+    let result = [];
 
     if (fields && fields.length) {
       fields.forEach((_field, index) => {
@@ -201,25 +209,29 @@ export default class TableNode extends Node {
           }
         }
         container.append(fieldDom);
-        this.fieldsList.push({
+        result.push({
           id: _field[_primaryKey],
           dom: fieldDom
-        })
-        
+        });
       });
+      this.fieldsList = this.fieldsList.concat(result);
     } else {
       const _emptyContent = _.get(this.options, '_emptyContent');
       const noDataTree = emptyDom({
         content: _emptyContent,
         width: this.options._emptyWidth
       });
-
       container.append(noDataTree);
+      this.height = $(container).outerHeight();
     }
+
+    return result;
   }
-  _createNodeEndpoint() {
+  _createNodeEndpoint(fieldList) {
     let type = this.options.type;
-    this.fieldsList.forEach((item) => {
+    let _fieldList = fieldList || this.fieldsList || [];
+    
+    _fieldList.forEach((item) => {
       this.addEndpoint({
         id: item.id,
         orientation: type === 'source' ? [1,0] : [-1,0],
@@ -339,5 +351,24 @@ export default class TableNode extends Node {
       pointIds: [curFieldData.id, nextFieldData.id]
     });
     
+  }
+  addFields(fields) {
+    let _addFieldsList = this._createFields(undefined, fields);
+    this._createNodeEndpoint(_addFieldsList);
+    let _addFieldsDomList = _addFieldsList.map((item) => {
+      return $(item.dom).find('.field-item');
+    });
+    this._addFieldItemTips(_addFieldsDomList);
+  }
+  removeFields(fields) {
+    fields.forEach((item) => {
+      let index = _.findIndex(this.fieldsList, _field => _field.id === item.id);
+      let field = this.fieldsList.splice(index, 1)[0];
+      if (field) {
+        $(field.dom).find('.field-item').off();
+        $(field.dom).off();
+        $(field.dom).remove();
+      }
+    });
   }
 };
