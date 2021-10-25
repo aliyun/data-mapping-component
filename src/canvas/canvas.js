@@ -91,8 +91,8 @@ export default class MappingCanvas extends Canvas {
     links.forEach((edge) => {
       let _sourceEndpoint = this._getEndpoint(edge.sourceEndpoint);
       let _targetEndpoint = this._getEndpoint(edge.targetEndpoint);
-      _sourceEndpoint && $(_sourceEndpoint.dom).removeClass('link');
-      _targetEndpoint && $(_targetEndpoint.dom).removeClass('link');
+      _sourceEndpoint && $(_sourceEndpoint.dom).removeClass('link').removeClass('focus');
+      _targetEndpoint && $(_targetEndpoint.dom).removeClass('link').removeClass('focus');
     });
   }
   // 聚焦链路
