@@ -122,7 +122,8 @@ export default class TableNode extends Node {
     })
   }
   _createFieldTitle(container = this.dom) {
-    let columns = _.get(this, 'options._columns', []);
+    let type = _.get(this, 'options.type', '');
+    let columns = _.get(this, ['options', type === 'source' ? '_sourceColumns' : '_targetColumns'], []);
     let hasFieldTitle = _.some(columns, (item) => {
       return item.title;
     });
@@ -154,10 +155,10 @@ export default class TableNode extends Node {
   }
   _createFields(container = $(this.dom), addFields = []) {
     let fields = addFields.length === 0 ? _.get(this, 'options.fields') : addFields;
-    let columns = _.get(this, 'options._columns', []);
+    let type = _.get(this, 'options.type', '');
+    let columns = _.get(this, ['options', type === 'source' ? '_sourceColumns' : '_targetColumns'], []);
     let sortable = _.get(this, 'options.sortable');
     let isObject = Object.prototype.toString.call(sortable) === "[object Object]";
-    let type = _.get(this, 'options.type', '');
     let result = [];
 
     if (fields && fields.length) {
@@ -274,7 +275,7 @@ export default class TableNode extends Node {
     }
     this.height += fields.length * this.ROW_HEIGHT;
     
-    let columns = _.get(obj, 'options._columns');
+    let columns = _.get(this, ['options', type === 'source' ? '_sourceColumns' : '_targetColumns'], []);
     columns.forEach((item) => {
       this.width += item.width || this.COLUMN_WIDTH;
     });
