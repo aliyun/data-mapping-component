@@ -10,6 +10,7 @@ import * as SingleNoHeaderData from './mock_data/single-no-header';
 import * as SingleWithHeaderData from './mock_data/single-with-header';
 import * as MutiplyMappingData from './mock_data/mutiply-mapping';
 import * as SinglePointLimit from './mock_data/single-point-limit';
+import * as DiffColumns from './mock_data/diff-columns';
 
 import 'antd/dist/antd.css';
 import './index.less';
@@ -19,23 +20,27 @@ const {columns1, mappingData1, sourceData1, targetData1} = SingleNoHeaderData;
 const {columns2, mappingData2, sourceData2, targetData2} = SingleWithHeaderData;
 const {columns3, mappingData3, sourceData3, targetData3} = MutiplyMappingData;
 const {columns4, mappingData4, sourceData4, targetData4} = SinglePointLimit;
+const {sourceColumns, targetColumns, mappingData5, sourceData5, targetData5} = DiffColumns;
 
 class Com extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mappingData1
+      sourceData1,
+      targetData1
     }
   }
   componentDidMount() {
     // setTimeout(() => {
-    //   let mapping = _.cloneDeep(mappingData1);
-    //   mapping.push({
-    //     source: '5',
-    //     target: '7'
-    //   });
+    //   let _sourceData1 = _.cloneDeep(this.state.sourceData1);
+    //   _sourceData1.fields[4].disable = true;
+    //   let _targetData1 = _.cloneDeep(this.state.targetData1);
+    //   _targetData1.fields[5].disable = true;
+    //   _targetData1.fields[6].disable = true;
+    //   _targetData1.fields[7].disable = true;
     //   this.setState({
-    //     mappingData1: []
+    //     sourceData1: _sourceData1,
+    //     targetData1: _targetData1
     //   });
     // }, 5000);
   }
@@ -50,6 +55,8 @@ class Com extends React.Component {
             columns={columns1}
             sourceData={sourceData1}
             targetData={targetData1}
+            // sourceData={this.state.sourceData1}
+            // targetData={this.state.targetData1}
             // mappingData={this.state.mappingData1}
             mappingData={mappingData1}
             width={600}
@@ -146,8 +153,22 @@ class Com extends React.Component {
             }}
           />
         </Col>
+        <Col flex={'600px'}>
+          <DataMapping
+            className='container single-no-header'
+            sourceClassName='single-no-header-source'
+            targetClassName='single-no-header-target'
+            sourceColumns={sourceColumns}
+            targetColumns={targetColumns}
+            sourceData={sourceData5}
+            targetData={targetData5}
+            mappingData={mappingData5}
+            width={600}
+            height={600}
+          />
+        </Col>
       </Row>
-    )
+    );
   }
 }
 

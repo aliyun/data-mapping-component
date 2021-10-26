@@ -45,6 +45,8 @@ interface ComProps {
   sourceClassName?: string,
   targetClassName?: string,
   columns: Array<columns>,
+  sourceColumns: Array<columns>,
+  targetColumns: Array<columns>,
   sourceData: Array<any> | Object,
   targetData: Array<any> | Object,
   mappingData: Array<any>,
@@ -80,6 +82,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
 
     let result = transformInitData({
       columns: this.props.columns,
+      sourceColumns: this.props.sourceColumns,
+      targetColumns: this.props.targetColumns,
       type: this.props.type || 'single',
       sortable: _.get(this.props, 'config.sortable') || false,
       sourceData: _.cloneDeep(this.props.sourceData),
@@ -157,6 +161,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
 
     let result = transformInitData({
       columns: newProps.columns,
+      sourceColumns: newProps.sourceColumns,
+      targetColumns: newProps.targetColumns,
       type: newProps.type || 'single',
       sortable: _.get(newProps, 'config.sortable') || false,
       sourceData: _.cloneDeep(newProps.sourceData),
@@ -186,9 +192,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
       this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
     }
-    
+
     if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
-      // console.log(diffInfo.addNodes);
       this.canvas.addNodes(diffInfo.addNodes);
       this.canvas._calcPos();
     }
@@ -204,6 +209,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
       this.canvas.removeFields(diffInfo.rmFields);
     }
+
+    this.canvas.updateDisableStatus(result);
 
     return false;
   }

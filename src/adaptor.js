@@ -5,17 +5,25 @@ import * as _ from 'lodash';
 
 export let transformInitData = (data) => {
   let {
-    columns, sourceData, targetData,
+    columns, sourceColumns, targetColumns,
+    sourceData, targetData,
     mappingData, type, extraPos,
     sortable, emptyContent, emptyWidth,
     sourceClassName, targetClassName
   } = data;
+
+  let _sourceColumns = [];
+  let _targetColumns = [];
+  _sourceColumns = sourceColumns ? sourceColumns : columns;
+  _targetColumns = targetColumns ? targetColumns : columns;
+
   const _genNodes = (data, nodeType, comType) => {
     if (comType === 'single' && data.constructor === Object) {
       return [_.assign({
         id: nodeType,
         type: nodeType,
-        _columns: columns,
+        _sourceColumns,
+        _targetColumns,
         _extraPos: extraPos,
         Class: TableNode,
         _emptyContent: emptyContent,
@@ -28,7 +36,8 @@ export let transformInitData = (data) => {
       return data.map((item) => {
         return _.assign({
           type: nodeType,
-          _columns: columns,
+          _sourceColumns,
+          _targetColumns,
           _extraPos: extraPos,
           Class: TableNode,
           _emptyContent: emptyContent,
@@ -128,7 +137,6 @@ export let diffPropsData = (newData, oldData) => {
   let addFields = [];
   let rmFields = [];
 
-
   newData.nodes.forEach((_newNode) => {
     let _oldNode = _.find(oldData.nodes, _node => _node.id === _newNode.id);
     if (_oldNode) {
@@ -140,6 +148,7 @@ export let diffPropsData = (newData, oldData) => {
           fields: result
         });
       }
+
     }
   });
   

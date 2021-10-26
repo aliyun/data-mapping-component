@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 
-export const columns1 = [{
+export const sourceColumns = [{
   key: 'id',
   title: 'ID',
   primaryKey: true,
@@ -17,7 +17,23 @@ export const columns1 = [{
   title: '描述',
 }];
 
-export const sourceData1 = {
+export const targetColumns = [{
+  key: 'code',
+  title: 'code',
+  primaryKey: true,
+  width: 30
+}, {
+  key: 'gender',
+  title: '性别',
+  render: (val, row, index) => {
+    return <div>{val}</div>
+  }
+}, {
+  key: 'desc',
+  title: '简介',
+}];
+
+export const sourceData5 = {
   title: 'source标题',
   fields: [{
     id: '1',
@@ -42,49 +58,47 @@ export const sourceData1 = {
   }, {
     id: '6',
     name: '国籍',
-    desc: 'nation',
-    disable: true
+    desc: 'nation'
   }]
 };
 
-export const targetData1 = {
+export const targetData5 = {
   fields: [{
-    id: '1',
-    name: '字段1',
+    code: '1',
+    gender: '男',
     desc: 'filed1'
   }, {
-    id: '2',
-    name: '字段2',
+    code: '2',
+    gender: '女',
     desc: 'filed2'
   }, {
-    id: '3',
-    name: '字段3',
+    code: '3',
+    gender: '男',
     desc: 'filed3'
   }, {
-    id: '4',
-    name: '字段4',
+    code: '4',
+    gender: '女',
     desc: 'filed4'
   }, {
-    id: '5',
-    name: '字段5',
+    code: '5',
+    gender: '男',
     desc: 'filed5'
   }, {
-    id: '6',
-    name: '字段6',
+    code: '6',
+    gender: '女',
     desc: 'filed6'
   }, {
-    id: '7',
-    name: '字段7',
+    code: '7',
+    gender: '男',
     desc: 'filed7'
   }, {
-    id: '8',
-    name: '字段8',
-    desc: 'filed8',
-    disable: true
+    code: '8',
+    gender: '中性',
+    desc: 'filed8'
   }]
 };
 
-export const mappingData1 = [{
+export const mappingData5 = [{
   source: '1',
   target: '3'
 }, {
