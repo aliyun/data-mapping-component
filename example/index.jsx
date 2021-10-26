@@ -63,7 +63,7 @@ class Com extends React.Component {
             height={600}
           />
         </Col>
-        {/* <Col flex={'600px'}>
+        <Col flex={'600px'}>
           <DataMapping
             className='container single-with-header'
             columns={columns2}
@@ -166,7 +166,7 @@ class Com extends React.Component {
             width={600}
             height={600}
           />
-        </Col> */}
+        </Col>
       </Row>
     );
   }
