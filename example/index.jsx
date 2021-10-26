@@ -26,18 +26,21 @@ class Com extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mappingData1
+      sourceData1,
+      targetData1
     }
   }
   componentDidMount() {
     // setTimeout(() => {
-    //   let mapping = _.cloneDeep(mappingData1);
-    //   mapping.push({
-    //     source: '5',
-    //     target: '7'
-    //   });
+    //   let _sourceData1 = _.cloneDeep(this.state.sourceData1);
+    //   _sourceData1.fields[4].disable = true;
+    //   let _targetData1 = _.cloneDeep(this.state.targetData1);
+    //   _targetData1.fields[5].disable = true;
+    //   _targetData1.fields[6].disable = true;
+    //   _targetData1.fields[7].disable = true;
     //   this.setState({
-    //     mappingData1: []
+    //     sourceData1: _sourceData1,
+    //     targetData1: _targetData1
     //   });
     // }, 5000);
   }
@@ -52,13 +55,15 @@ class Com extends React.Component {
             columns={columns1}
             sourceData={sourceData1}
             targetData={targetData1}
+            // sourceData={this.state.sourceData1}
+            // targetData={this.state.targetData1}
             // mappingData={this.state.mappingData1}
             mappingData={mappingData1}
             width={600}
             height={600}
           />
         </Col>
-        <Col flex={'600px'}>
+        {/* <Col flex={'600px'}>
           <DataMapping
             className='container single-with-header'
             columns={columns2}
@@ -161,7 +166,7 @@ class Com extends React.Component {
             width={600}
             height={600}
           />
-        </Col>
+        </Col> */}
       </Row>
     );
   }

@@ -192,9 +192,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
       this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
     }
-    
+
     if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
-      // console.log(diffInfo.addNodes);
       this.canvas.addNodes(diffInfo.addNodes);
       this.canvas._calcPos();
     }
@@ -210,6 +209,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
       this.canvas.removeFields(diffInfo.rmFields);
     }
+
+    this.canvas.updateDisableStatus(result);
 
     return false;
   }

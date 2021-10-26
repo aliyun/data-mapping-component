@@ -190,4 +190,35 @@ export default class MappingCanvas extends Canvas {
       node && node.removeFields(item.fields);
     });
   }
+  updateDisableStatus(newData) {
+    (newData.nodes || []).forEach((newNode) => {
+      let oldNode = _.find(this.nodes, (item) => {
+        return item.id === newNode.id;
+      });
+
+      if (oldNode) {
+        let oldFields = oldNode.options.fields;
+        let newFields = newNode.fields;
+        oldFields.forEach((oldField) => {
+          let newField = _.find(newFields, (item) => {
+            return item.id === oldField.id;
+          });
+          if (newFields && newField.disable !== oldField.disable) {
+            oldField.disable = newField.disable;
+            let pos = oldNode.options.type === 'source' ? 'right' : 'left';
+            oldNode.endpoints.filter((item) => {
+              return item.id === oldField.id || item.id === `${oldField.id}-${pos}`;
+            }).forEach((item) => {
+              item.options.disable = newField.disable;
+              if (newField.disable) {
+                $(item.dom).addClass('disable');
+              } else {
+                $(item.dom).removeClass('disable');
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 };

@@ -137,7 +137,6 @@ export let diffPropsData = (newData, oldData) => {
   let addFields = [];
   let rmFields = [];
 
-
   newData.nodes.forEach((_newNode) => {
     let _oldNode = _.find(oldData.nodes, _node => _node.id === _newNode.id);
     if (_oldNode) {
@@ -149,6 +148,7 @@ export let diffPropsData = (newData, oldData) => {
           fields: result
         });
       }
+
     }
   });
   

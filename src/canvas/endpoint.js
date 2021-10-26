@@ -16,9 +16,13 @@ class NewEndPoint extends Endpoint {
       if (e.button !== LEFT_KEY) {
         return;
       }
+      
       e.preventDefault();
       e.stopPropagation();
 
+      if (this.options.disable) {
+        return;
+      }
 
       // 点击中了上移/下移的按钮,需要阻止
       let classname = e.target.className || '';

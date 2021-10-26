@@ -42,7 +42,8 @@ export const sourceData1 = {
   }, {
     id: '6',
     name: '国籍',
-    desc: 'nation'
+    desc: 'nation',
+    disable: true
   }]
 };
 
@@ -78,7 +79,8 @@ export const targetData1 = {
   }, {
     id: '8',
     name: '字段8',
-    desc: 'filed8'
+    desc: 'filed8',
+    disable: true
   }]
 };
 
