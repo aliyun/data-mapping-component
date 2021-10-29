@@ -61,6 +61,9 @@ class Com extends React.Component {
             mappingData={mappingData1}
             width={600}
             height={600}
+            onEdgeClick={(data) => {
+              console.log(data);
+            }}
           />
         </Col>
         <Col flex={'600px'}>
