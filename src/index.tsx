@@ -59,6 +59,7 @@ interface ComProps {
   onChange(data: any): void,
   onRowMouseOver?(row:any):void,
   onRowMouseOut?(row:any):void,
+  onEdgeClick?(edge: any): void,
 };
 
 export default class DataMapping extends React.Component<ComProps, any> {
@@ -366,6 +367,10 @@ export default class DataMapping extends React.Component<ComProps, any> {
         this.onChange();
       });
     });
+
+    this.canvas.on('system.link.click', (data?: any) => {
+      this.props.onEdgeClick && this.props.onEdgeClick((data || {}).edge);
+    })
   }
   render() {
     return (
