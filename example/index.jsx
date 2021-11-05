@@ -31,6 +31,10 @@ class Com extends React.Component {
     }
   }
   componentDidMount() {
+    this.setState({
+      sourceData1: _.cloneDeep(sourceData1),
+      targetData1: _.cloneDeep(targetData1)
+    });
     // setTimeout(() => {
     //   let _sourceData1 = _.cloneDeep(this.state.sourceData1);
     //   _sourceData1.fields[4].disable = true;
@@ -53,8 +57,32 @@ class Com extends React.Component {
             sourceClassName='single-no-header-source'
             targetClassName='single-no-header-target'
             columns={columns1}
-            sourceData={sourceData1}
-            targetData={targetData1}
+            sourceData={this.state.sourceData1}
+            targetData={this.state.targetData1}
+            config={{
+              checkable: {
+                source: true,
+                target: false
+              }
+            }}
+            onCheckChange={(data) => {
+              let _sourceData1 = _.cloneDeep(this.state.sourceData1);
+              let _targetData1 = _.cloneDeep(this.state.targetData1);
+              _sourceData1.fields.forEach((item) => {
+                if (item.id === data.fieldId && data.nodeType === 'source') {
+                  item.checked = data.checked;
+                }
+              });
+              _targetData1.fields.forEach((item) => {
+                if (item.id === data.fieldId && data.nodeType === 'target') {
+                  item.checked = data.checked;
+                }
+              });
+              this.setState({
+                sourceData1: _sourceData1,
+                targetData1: _targetData1
+              });
+            }}
             // sourceData={this.state.sourceData1}
             // targetData={this.state.targetData1}
             // mappingData={this.state.mappingData1}

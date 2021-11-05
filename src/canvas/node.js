@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import {Tips} from 'butterfly-dag';
 import emptyDom from './empty';
 import Endpoint from './endpoint';
+import './checkbox.less';
 
 export default class TableNode extends Node {
   constructor(opts) {
@@ -25,9 +26,14 @@ export default class TableNode extends Node {
     this.PADDING_HORIZONTAL = _.get(opts, '_extraPos.paddingCenter') || 150;
     // 排序宽度
     this.SORTABLE_WIDTH = 40;
+    // checkout宽度
+    this.CHECKBOX_WIDTH = this.ROW_HEIGHT;
 
     this.height = 0;
     this.width = 0;
+
+    // 选择状态
+    this.checked = opts.checked;
 
     this.fieldsList = [];
   }
@@ -124,11 +130,33 @@ export default class TableNode extends Node {
   _createFieldTitle(container = this.dom) {
     let type = _.get(this, 'options.type', '');
     let columns = _.get(this, ['options', type === 'source' ? '_sourceColumns' : '_targetColumns'], []);
+    let checkable = _.get(this, 'options.checkable');
     let hasFieldTitle = _.some(columns, (item) => {
       return item.title;
     });
+    let isObject = (object) => Object.prototype.toString.call(object) === "[object Object]";
     if (hasFieldTitle) {
-      const columnsTitleDom = $('<div class="filed-title"></div>')
+      const columnsTitleDom = $('<div class="filed-title"></div>');
+      if (checkable) {
+        let hasCheckBox = false;
+        if (type === 'source') {
+          if (isObject(checkable) && checkable.source) {
+            hasCheckBox = true;
+          }
+        } else if (type === 'target') {
+          if (isObject(checkable) && checkable.target) {
+            hasCheckBox = true;
+          }
+        }
+        if (typeof(checkable) === 'boolean') {
+          hasCheckBox = true;
+        }
+        if (hasCheckBox) {
+          let emptyDom = $(`<span class="filed-title-item"></span>`);
+          emptyDom.css('width', this.CHECKBOX_WIDTH + 'px');
+          columnsTitleDom.append(emptyDom);
+        }
+      }
       columns.forEach(_col => {
         const columnsTitleItem = $(`<span class="filed-title-item">${_col.title}</span>`);
         columnsTitleItem.css('width', (_col.width || this.COLUMN_WIDTH) + 'px');
@@ -153,12 +181,38 @@ export default class TableNode extends Node {
     sortFieldDom.find('.move-down').click(this._moveDown.bind(this, field));
     return sortFieldDom;
   }
+  _createCheckBox(field) {
+    let checkboxDom = $(`
+      <span class="field-checkbox">
+        <span class="dm-checkbox">
+          <span class="dm-checkbox-inner"></span>
+        </span>
+      </span>
+    `);
+    checkboxDom.css('height', this.CHECKBOX_WIDTH + 'px');
+    if (field.checked) {
+      checkboxDom.find('.dm-checkbox').addClass('dm-checkbox-checked');
+    }
+    checkboxDom.click((e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      // 发送事件，更新选择状态
+      this.emit('custom.field.checked', {
+        nodeId: this.id,
+        nodeType: this.options.type,
+        fieldId: field.id,
+        checked: !field.checked
+      });
+    });
+    return checkboxDom;
+  }
   _createFields(container = $(this.dom), addFields = []) {
     let fields = addFields.length === 0 ? _.get(this, 'options.fields') : addFields;
     let type = _.get(this, 'options.type', '');
     let columns = _.get(this, ['options', type === 'source' ? '_sourceColumns' : '_targetColumns'], []);
     let sortable = _.get(this, 'options.sortable');
-    let isObject = Object.prototype.toString.call(sortable) === "[object Object]";
+    let checkable = _.get(this, 'options.checkable');
+    let isObject = (object) => Object.prototype.toString.call(object) === "[object Object]";
     let result = [];
 
     if (fields && fields.length) {
@@ -166,9 +220,27 @@ export default class TableNode extends Node {
         let fieldDom = $('<div class="field"></div>');
         let _primaryKey = columns[0].key;
         let sortFieldDom = undefined;
+        let checkFieldDom = undefined;
   
-        if (sortable && typeof(sortable) === 'boolean') {
+        if (sortable) {
           sortFieldDom = this._createSortableBtn(_field);
+        }
+        if (checkable) {
+          if (type === 'source') {
+            if (isObject(checkable) && checkable.source) {
+              checkFieldDom = this._createCheckBox(_field);
+              fieldDom.append(checkFieldDom);
+            }
+          } else if (type === 'target') {
+            if (isObject(checkable) && checkable.target) {
+              checkFieldDom = this._createCheckBox(_field);
+              fieldDom.append(checkFieldDom);
+            }
+          }
+          if (typeof(checkable) === 'boolean') {
+            checkFieldDom = this._createCheckBox(_field);
+            fieldDom.append(checkFieldDom);
+          }
         }
         fieldDom.css({
           height: this.ROW_HEIGHT + 'px',
@@ -196,7 +268,7 @@ export default class TableNode extends Node {
         if (type === 'source') {
           let rightPoint = $('<div class="point right-point"></div>');
           fieldDom.append(rightPoint);
-          if (isObject && sortable.source) {
+          if (isObject(sortable) && sortable.source) {
             sortFieldDom = this._createSortableBtn(_field);
             fieldDom.append(sortFieldDom);
           }
@@ -204,7 +276,7 @@ export default class TableNode extends Node {
         if (type === 'target') {
           let leftPoint = $('<div class="point left-point"></div>');
           fieldDom.append(leftPoint);
-          if (isObject && sortable.target) {
+          if (isObject(sortable) && sortable.target) {
             sortFieldDom = this._createSortableBtn(_field);
             fieldDom.append(sortFieldDom);
           }
@@ -369,6 +441,23 @@ export default class TableNode extends Node {
         $(field.dom).find('.field-item').off();
         $(field.dom).off();
         $(field.dom).remove();
+      }
+    });
+  }
+  updateCheckedStatus(fields) {
+    fields.forEach((field) => {
+      let realField = _.find(this.fieldsList, (item) => {
+        return item.id === field.id;
+      });
+      let realFieldData = _.find(this.options.fields || [], (item) => {
+        return item.id === field.id;
+      });
+      if (field.checked) {
+        realFieldData.checked = field.checked;
+        realField.dom.find('.dm-checkbox').addClass('dm-checkbox-checked');
+      } else {
+        realFieldData.checked = field.checked;
+        realField.dom.find('.dm-checkbox').removeClass('dm-checkbox-checked');
       }
     });
   }

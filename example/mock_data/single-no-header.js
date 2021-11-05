@@ -38,7 +38,8 @@ export const sourceData1 = {
   }, {
     id: '5',
     name: '体重',
-    desc: 'weight'
+    desc: 'weight',
+    checked: true
   }, {
     id: '6',
     name: '国籍',
