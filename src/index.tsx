@@ -31,6 +31,10 @@ interface config {
     source?: boolean,
     target?: boolean
   },
+  checkable?: boolean | {
+    source?: boolean,
+    target?: boolean
+  },
   linkNumLimit?: number | {
     source?: number,
     target?: number
@@ -60,6 +64,7 @@ interface ComProps {
   onRowMouseOver?(row:any):void,
   onRowMouseOut?(row:any):void,
   onEdgeClick?(edge: any): void,
+  onCheckChange(data: any): void,
 };
 
 export default class DataMapping extends React.Component<ComProps, any> {
@@ -87,6 +92,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
       targetColumns: this.props.targetColumns,
       type: this.props.type || 'single',
       sortable: _.get(this.props, 'config.sortable') || false,
+      checkable: _.get(this.props, 'config.checkable') || false,
       sourceData: _.cloneDeep(this.props.sourceData),
       targetData: _.cloneDeep(this.props.targetData),
       mappingData: _.cloneDeep(this.props.mappingData),
@@ -166,6 +172,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
       targetColumns: newProps.targetColumns,
       type: newProps.type || 'single',
       sortable: _.get(newProps, 'config.sortable') || false,
+      checkable: _.get(this.props, 'config.checkable') || false,
       sourceData: _.cloneDeep(newProps.sourceData),
       targetData: _.cloneDeep(newProps.targetData),
       mappingData: _.cloneDeep(newProps.mappingData),
@@ -209,6 +216,10 @@ export default class DataMapping extends React.Component<ComProps, any> {
 
     if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
       this.canvas.removeFields(diffInfo.rmFields);
+    }
+    
+    if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
+      this.canvas.updateCheckedStatus(diffInfo.checkedFields);
     }
 
     this.canvas.updateDisableStatus(result);
@@ -368,8 +379,20 @@ export default class DataMapping extends React.Component<ComProps, any> {
       });
     });
 
+    // 字段选择状态变更
+    this.canvas.on('custom.field.checked', (data) => {
+      this.props.onCheckChange(data);
+    });
+
     this.canvas.on('system.link.click', (data?: any) => {
-      this.props.onEdgeClick && this.props.onEdgeClick((data || {}).edge);
+      let _edge = data.edge;
+      this.props.onEdgeClick && this.props.onEdgeClick({
+        id: _edge.id,
+        sourceNodeId: _edge.sourceNode.id,
+        targetNodeId: _edge.targetNode.id,
+        sourceEndpointId: _edge.sourceEndpoint.originId,
+        targetEndpointId: _edge.targetEndpoint.originId
+      });
     })
   }
   render() {

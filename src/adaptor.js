@@ -8,7 +8,7 @@ export let transformInitData = (data) => {
     columns, sourceColumns, targetColumns,
     sourceData, targetData,
     mappingData, type, extraPos,
-    sortable, emptyContent, emptyWidth,
+    sortable, checkable, emptyContent, emptyWidth,
     sourceClassName, targetClassName
   } = data;
 
@@ -30,7 +30,8 @@ export let transformInitData = (data) => {
         _emptyWidth: emptyWidth,
         _sourceClassName: sourceClassName,
         _targetClassName: targetClassName,
-        sortable
+        sortable,
+        checkable
       }, data)];
     } else if (comType === 'mutiply' && data.constructor === Array) {
       return data.map((item) => {
@@ -44,7 +45,8 @@ export let transformInitData = (data) => {
           _emptyWidth: emptyWidth,
           _sourceClassName: sourceClassName,
           _targetClassName: targetClassName,
-          sortable
+          sortable,
+          checkable
         }, item);
       });
     }
@@ -124,11 +126,8 @@ export let transformChangeData = (data, comType) => {
 
 export let diffPropsData = (newData, oldData) => {
 
-
-  let _newNodes = newData.nodes || [];
-  let _oldNodes = oldData.nodes || [];
-
   const isSameId = (a, b) => a.id === b.id;
+  const isSameCheck = (a, b) => a.id === b.id && a.checked === b.checked;
 
   let addNodes = _.differenceWith(newData.nodes, oldData.nodes, isSameId);
   let rmNodes = _.differenceWith(oldData.nodes, newData.nodes, isSameId);
@@ -136,19 +135,29 @@ export let diffPropsData = (newData, oldData) => {
 
   let addFields = [];
   let rmFields = [];
+  let checkedFields = [];
 
   newData.nodes.forEach((_newNode) => {
     let _oldNode = _.find(oldData.nodes, _node => _node.id === _newNode.id);
     if (_oldNode) {
-      let result = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameId);
-      if (result.length > 0) {
+
+      let addResult = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameId);
+      let checkResult = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameCheck);
+      
+      if (checkResult.length > 0) {
+        checkedFields.push({
+          id: _newNode.id,
+          type: _newNode.type,
+          fields: checkResult
+        });
+      }
+      if (addResult.length > 0) {
         addFields.push({
           id: _newNode.id,
           type: _newNode.type,
-          fields: result
+          fields: addResult
         });
       }
-
     }
   });
   
@@ -184,9 +193,9 @@ export let diffPropsData = (newData, oldData) => {
     addNodes,
     rmNodes,
     addFields,
-    rmFields
+    rmFields,
+    checkedFields
   };
-
 
   return result;
 };

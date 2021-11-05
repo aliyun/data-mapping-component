@@ -221,4 +221,10 @@ export default class MappingCanvas extends Canvas {
       }
     });
   }
+  updateCheckedStatus(checkFields) {
+    checkFields.forEach((item) => {
+      let node = this.getNode(item.id);
+      node && node.updateCheckedStatus(item.fields);
+    })
+  }
 };
