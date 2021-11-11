@@ -91,10 +91,12 @@ export let transformChangeData = (data, comType) => {
       }
     });
     result.sourceData = {
+      id: _sourceNode.id,
       title: _.get(_sourceNode, 'options.title'),
       fields: _.get(_sourceNode, 'options.fields')
     };
     result.targetData = {
+      id: _targetNode.id,
       title: _.get(_targetNode, 'options.title'),
       fields: _.get(_targetNode, 'options.fields')
     };
@@ -109,18 +111,20 @@ export let transformChangeData = (data, comType) => {
     });
     result.sourceData = sourceNodes.map((item) => {
       return {
+        id: item.id,
         title: _.get(item, 'options.title'),
         fields: _.get(item, 'options.fields')
       };
     });
     result.targetData = targetNodes.map((item) => {
       return {
+        id: item.id,
         title: _.get(item, 'options.title'),
         fields: _.get(item, 'options.fields')
       };
     });
   }
-  return result;
+  return _.cloneDeep(result);
 };
 
 
@@ -136,14 +140,12 @@ export let diffPropsData = (newData, oldData) => {
   let addFields = [];
   let rmFields = [];
   let checkedFields = [];
-
   newData.nodes.forEach((_newNode) => {
     let _oldNode = _.find(oldData.nodes, _node => _node.id === _newNode.id);
     if (_oldNode) {
 
       let addResult = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameId);
       let checkResult = _.differenceWith(_newNode.fields, _.get(_oldNode, 'options.fields'), isSameCheck);
-      
       if (checkResult.length > 0) {
         checkedFields.push({
           id: _newNode.id,
