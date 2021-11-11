@@ -65,22 +65,10 @@ class Com extends React.Component {
                 target: false
               }
             }}
-            onCheckChange={(data) => {
-              let _sourceData1 = _.cloneDeep(this.state.sourceData1);
-              let _targetData1 = _.cloneDeep(this.state.targetData1);
-              _sourceData1.fields.forEach((item) => {
-                if (item.id === data.fieldId && data.nodeType === 'source') {
-                  item.checked = data.checked;
-                }
-              });
-              _targetData1.fields.forEach((item) => {
-                if (item.id === data.fieldId && data.nodeType === 'target') {
-                  item.checked = data.checked;
-                }
-              });
+            onChange={(data) => {
               this.setState({
-                sourceData1: _sourceData1,
-                targetData1: _targetData1
+                sourceData1: _.cloneDeep(data.sourceData),
+                targetData1: _.cloneDeep(data.targetData),
               });
             }}
             // sourceData={this.state.sourceData1}
@@ -150,6 +138,10 @@ class Com extends React.Component {
             height={600}
             config={{
               sortable: true,
+              checkable: {
+                source: true,
+                target: false
+              },
               extraPos: {
                 paddingLeft: 10,
                 paddingRight: 10,

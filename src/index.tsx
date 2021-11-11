@@ -217,7 +217,7 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
       this.canvas.removeFields(diffInfo.rmFields);
     }
-    
+
     if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
       this.canvas.updateCheckedStatus(diffInfo.checkedFields);
     }
@@ -380,8 +380,18 @@ export default class DataMapping extends React.Component<ComProps, any> {
     });
 
     // 字段选择状态变更
-    this.canvas.on('custom.field.checked', (data) => {
-      this.props.onCheckChange(data);
+    this.canvas.on('custom.field.checked', (checkData) => {
+      let result = transformChangeData(this.canvas.getDataMap(), this.props.type || 'single');
+      let dataSource = result[`${checkData.nodeType}Data`];
+      let targetNode = dataSource;
+      if (dataSource.constructor === Array) {
+        targetNode = _.find(dataSource, (_item) => _item.id === checkData.nodeId);
+      }
+
+      let fields = targetNode.fields;
+      let targetField = _.find(fields, (_item) => _item.id === checkData.fieldId);
+      targetField.checked = checkData.checked; 
+      this.props.onChange && this.props.onChange(result);
     });
 
     this.canvas.on('system.link.click', (data?: any) => {
