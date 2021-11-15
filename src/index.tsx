@@ -70,11 +70,13 @@ interface ComProps {
 export default class DataMapping extends React.Component<ComProps, any> {
   protected canvas: any;
   private _isRendering: boolean;
+  private _isOnchange: boolean;
   props: any;
   constructor(props: ComProps) {
     super(props);
     this.canvas = null;
     this._isRendering = false;
+    this._isOnchange = false;
   }
   componentDidMount() {
     let root = ReactDOM.findDOMNode(this) as HTMLElement;
@@ -227,8 +229,14 @@ export default class DataMapping extends React.Component<ComProps, any> {
     return false;
   }
   onChange() {
-    let result = transformChangeData(this.canvas.getDataMap(), this.props.type || 'single');
-    this.props.onChange && this.props.onChange(result);
+    if (!this._isOnchange) {
+      this._isOnchange = true;
+      setTimeout(() => {
+        let result = transformChangeData(this.canvas.getDataMap(), this.props.type || 'single');
+        this.props.onChange && this.props.onChange(result);
+        this._isOnchange = false;
+      }, 0);
+    }
   }
   _genClassName() {
     let classname = '';
