@@ -68,6 +68,7 @@ npm install react-data-mapping
 | onChange        | 每次连线触发事件                | <font color="c41d7f">function</font> |     
 | onRowMouseOver  | 鼠标移入某一行数据时触发          | <font color="c41d7f">function(row)</font> | 
 | onRowMouseOut   | 鼠标移出某一行数据时触发          | <font color="c41d7f">function(row)</font> |      
+| onEdgeClick   | 点击连线时触发          | <font color="c41d7f">function(row)</font> |  
 | readonly        | 是否只读                        | <font color="c41d7f">boolean</font>      | 默认false                        |
 
 <br>
@@ -95,6 +96,8 @@ npm install react-data-mapping
 | <a name='source-data-id'><a>id       | 列标识， `single` 类型下，id可不填， `mutiply` 为必填 | <font color="c41d7f">string</font>  | -         |
 | title                                | 列标题                                            | <font color="c41d7f">string</font>  |  -        |
 | fileds                                | 数据数组                                          | <font color="c41d7f">array</font>    | -         |
+| checked                                | 勾选框是否已勾选                                          | <font color="c41d7f">boolean</font>    | false        |
+| disable                                | 禁止连线                                        | <font color="c41d7f">boolean</font>    | false         |
 
 <br>
 
@@ -125,6 +128,7 @@ npm install react-data-mapping
 | extraPos        | 画布渲染的时候会留padding, | [extraPos Prop](#extraPos-prop)<font color="c41d7f"> { }</font>  | -                       |
 | sortable        | 排序支持                   | <font color="c41d7f">boolean &#124; object</font>   |  -                      | 
 | linkNumLimit    | 连线数量支持 | <font color="c41d7f">number &#124; object</font>  |   -            |
+| checkable        | 来源表，目标表是否有勾选框 | [checkable Prop](#checkable-prop)<font color="c41d7f"> { }</font>  | -                       |
 
 <br>
 
@@ -139,6 +143,17 @@ npm install react-data-mapping
 |paddingTop    |  顶部padding间距             | number      | 0    |
 |paddingBottom |  底部padding间距            | number      | 0    |
 |paddingCenter |  水平间距        | number      | 150    |
+
+<br>
+
+### <a name='checkable-prop'></a><b>checkable</b>
+
+来源表，目标表是否有勾选框
+
+| 参数          |说明            | 类型         | 默认值|
+|-----------   |----------------|-------------|------|
+|source   |  源表是否有勾选框             | boolean      | false    |
+|target  |  目标表是否有勾选框               | boolean      | false   |
 
 ## 🔗API
 
@@ -166,6 +181,10 @@ interface config {
     linkNumLimit ? : number | { // 连线数量支持，假如是number，会整个画布都支持n条连线
       source ? : number, // 假如是number，单纯左侧来源表支持n条连线
       target ? : number // 假如是number，单纯左侧来源表支持n条连线
+    },
+    checkable ？: {  // 源表目标表是否有勾选框
+      source ? : boolean, // 假如是true，单纯左侧来源表支持勾选框
+      target ? : boolean
     }
 }
 
