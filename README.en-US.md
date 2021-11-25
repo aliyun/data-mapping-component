@@ -63,6 +63,7 @@ npm install react-data-mapping
 | onChange        | Event triggered by connection | function     |      
 | onRowMouseOver  | Event triggered when the mouse moves onto a row of data   | <font color="c41d7f">function(row)</font> | 
 | onRowMouseOut   | Event triggered when the mouse moves out of a row of data          | <font color="c41d7f">function(row)</font> 
+| onEdgeClick   | Event triggered when the connection is clicked          | <font color="c41d7f">function(row)</font> |  
 | readonly        | Read only                        | <font color="c41d7f">boolean</font>      | Default false         |
 
 <br>
@@ -93,6 +94,8 @@ Source table data，when [type](#data-mapping-type) is `single` , the sourceData
 | <a name='source-data-id'></a>id       | Column identifies， when [type](#data-mapping-type) is `single`，the id is not required, when the [type](#data-mapping-type) is  `mutiply`, the id is required| <font color="c41d7f">string</font>  | -         |
 | title                                | Column title                       | <font color="c41d7f">string</font>  | -  |
 | fileds                                | Data record array to be displayed  | <font color="c41d7f">array</font>   | -  |
+| checked                                | Is it checked                                     | <font color="c41d7f">boolean</font>    | false        |
+| disable                                | No connection               | <font color="c41d7f">boolean</font>    | false         |
 
 <br>
 
@@ -123,6 +126,7 @@ The extra configuration of components
 | extraPos        | Padding is reserved when rendering the canvas | [extraPos Prop](#extraPos-prop)<font color="c41d7f"> { }</font>  | -                 |
 | sortable        | Sorter                   | <font color="c41d7f">boolean &#124; object</font>   |  -        | 
 | linkNumLimit    | Number of lines limited | <font color="c41d7f">number &#124; object</font>  |   -            |
+| checkable        | Support check box   | [checkable Prop](#checkable-prop)<font color="c41d7f"> { }</font>  | -                       |
 
 <br>
 
@@ -137,6 +141,17 @@ Padding is reserved when rendering the canvas
 |paddingTop    |  Padding spacing on the top              | number      | 0    |
 |paddingBottom |  Padding spacing on the bottom           | number      | 0    |
 |paddingCenter |  Center spacing                          | number      | 150  |
+
+<br>
+
+### <a name='checkable-prop'></a><b>checkable</b>
+
+Table supports checkbox
+
+| Property     | Description                 | Type       | Default |
+|-----------   |----------------|-------------|------|
+|source   |  left table supports checkbox            | boolean      | false    |
+|target  |  right table supports checkbox             | boolean      | false   |
 
 ## 🔗API
 
@@ -165,6 +180,10 @@ interface config {
     linkNumLimit ? : number | { // Connection Number support, if it is number, the canvas supports n connections
       source ? : number, // If it is number, only the left source table supports n connections
       target ? : number // If it is number, only the left target table supports n connections
+    },
+    checkable ？: {  // table supports checkbox
+      source ? : boolean, // // If it is true, only pure right target table supports checkbox
+      target ? : boolean
     }
 }
 
