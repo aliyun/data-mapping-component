@@ -27,13 +27,15 @@ class Com extends React.Component {
     super(props);
     this.state = {
       sourceData1,
-      targetData1
+      targetData1,
+      mappingData1
     }
   }
   componentDidMount() {
     this.setState({
       sourceData1: _.cloneDeep(sourceData1),
-      targetData1: _.cloneDeep(targetData1)
+      targetData1: _.cloneDeep(targetData1),
+      mappingData1: _.cloneDeep(mappingData1),
     });
     // setTimeout(() => {
     //   let _sourceData1 = _.cloneDeep(this.state.sourceData1);
@@ -69,12 +71,13 @@ class Com extends React.Component {
               this.setState({
                 sourceData1: _.cloneDeep(data.sourceData),
                 targetData1: _.cloneDeep(data.targetData),
+                mappingData1: _.cloneDeep(data.mappingData),
               });
             }}
             // sourceData={this.state.sourceData1}
             // targetData={this.state.targetData1}
             // mappingData={this.state.mappingData1}
-            mappingData={mappingData1}
+            mappingData={this.state.mappingData1}
             width={600}
             height={600}
             onEdgeClick={(data) => {
