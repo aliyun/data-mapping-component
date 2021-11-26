@@ -158,6 +158,16 @@ export default class DataMapping extends React.Component<ComProps, any> {
         }
         this._isRendering = false;
         this.props.onLoaded && this.props.onLoaded(this.canvas);
+        // 做滚动中修正
+        this.canvas._coordinateService._calcScrollPos(true);
+        this.canvas.nodes.forEach((item) => {
+          item.endpoints.forEach((point) => {
+            point.updatePos();
+          })
+        });
+        this.canvas.edges.forEach((item) => {
+          item.redraw();
+        });
       });
       this._addEventListener();
     }, _.get(this.props, 'config.delayDraw', 0));
