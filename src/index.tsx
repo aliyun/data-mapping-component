@@ -205,12 +205,16 @@ export default class DataMapping extends React.Component<ComProps, any> {
       })
     });
 
+    if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
+      this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
+    }
+
     if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
       this.canvas.addEdges(diffInfo.addEdges);
     }
 
-    if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
-      this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
+    if (diffInfo.rmNodes && diffInfo.rmNodes.length > 0) {
+      this.canvas.removeNodes(diffInfo.rmNodes);
     }
 
     if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
@@ -218,16 +222,12 @@ export default class DataMapping extends React.Component<ComProps, any> {
       this.canvas._calcPos();
     }
 
-    if (diffInfo.rmNodes && diffInfo.rmNodes.length > 0) {
-      this.canvas.removeNodes(diffInfo.rmNodes);
+    if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
+      this.canvas.removeFields(diffInfo.rmFields);
     }
 
     if (diffInfo.addFields && diffInfo.addFields.length > 0) {
       this.canvas.addFields(diffInfo.addFields);
-    }
-
-    if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
-      this.canvas.removeFields(diffInfo.rmFields);
     }
 
     if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
