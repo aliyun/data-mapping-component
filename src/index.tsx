@@ -69,7 +69,7 @@ interface ComProps {
 
 export default class DataMapping extends React.Component<ComProps, any> {
   protected canvas: any;
-  private _isRendering: boolean;
+  private _isRendering: any;
   private _isOnchange: boolean;
   props: any;
   constructor(props: ComProps) {
@@ -146,95 +146,103 @@ export default class DataMapping extends React.Component<ComProps, any> {
       canvasObj.theme.endpoint.limitNum = _linkNumLimit;
     }
     this.canvas = new Canvas(canvasObj);
-    this._isRendering = true;
-    setTimeout(() => {
-      this.canvas.draw(result, () => {
-        this.canvas._calcPos();
-        if (this.props.width === 'auto') {
-          this.canvas._autoResize('width');
-        }
-        if (this.props.height === 'auto') {
-          this.canvas._autoResize('height');
-        }
-        this._isRendering = false;
-        this.props.onLoaded && this.props.onLoaded(this.canvas);
-        // 做滚动中修正
-        this.canvas._coordinateService._calcScrollPos(true);
-        this.canvas.nodes.forEach((item) => {
-          item.endpoints.forEach((point) => {
-            point.updatePos();
-          })
+    this._isRendering = new Promise<void>((resolve, reject) => {
+      setTimeout(() => {
+        this.canvas.draw(result, () => {
+          this.canvas._calcPos();
+          if (this.props.width === 'auto') {
+            this.canvas._autoResize('width');
+          }
+          if (this.props.height === 'auto') {
+            this.canvas._autoResize('height');
+          }
+          resolve();
+          this.props.onLoaded && this.props.onLoaded(this.canvas);
+          // 做滚动中修正
+          this.canvas._coordinateService._calcScrollPos(true);
+          this.canvas.nodes.forEach((item) => {
+            item.endpoints.forEach((point) => {
+              point.updatePos();
+            })
+          });
+          this.canvas.edges.forEach((item) => {
+            item.redraw();
+          });
         });
-        this.canvas.edges.forEach((item) => {
-          item.redraw();
-        });
-      });
-      this._addEventListener();
-    }, _.get(this.props, 'config.delayDraw', 0));
+        this._addEventListener();
+      }, _.get(this.props, 'config.delayDraw', 0));
+    });
   }
   shouldComponentUpdate(newProps: ComProps, newState: any) {
 
+    const _update = () => {
+      let result = transformInitData({
+        columns: newProps.columns,
+        sourceColumns: newProps.sourceColumns,
+        targetColumns: newProps.targetColumns,
+        type: newProps.type || 'single',
+        sortable: _.get(newProps, 'config.sortable') || false,
+        checkable: _.get(this.props, 'config.checkable') || false,
+        sourceData: _.cloneDeep(newProps.sourceData),
+        targetData: _.cloneDeep(newProps.targetData),
+        mappingData: _.cloneDeep(newProps.mappingData),
+        extraPos: _.get(newProps, 'config.extraPos'),
+        linkNumLimit: _.get(newProps, 'config.linkNumLimit'),
+        emptyContent: newProps.emptyContent,
+        emptyWidth: newProps.emptyWidth,
+        sourceClassName: newProps.sourceClassName || '',
+        targetClassName: newProps.targetClassName || ''
+      });
+      let diffInfo = diffPropsData(result, {
+        nodes: this.canvas.nodes,
+        edges: this.canvas.edges.map((item) => {
+          return _.assign(item.options, {
+            source: (item.options.source || '').replace('-right', ''),
+            target: (item.options.target || '').replace('-left', ''),
+          });
+        })
+      });
+  
+      if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
+        this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
+      }
+  
+      if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
+        this.canvas.addEdges(diffInfo.addEdges);
+      }
+  
+      if (diffInfo.rmNodes && diffInfo.rmNodes.length > 0) {
+        this.canvas.removeNodes(diffInfo.rmNodes);
+      }
+  
+      if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
+        this.canvas.addNodes(diffInfo.addNodes);
+        this.canvas._calcPos();
+      }
+  
+      if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
+        this.canvas.removeFields(diffInfo.rmFields);
+      }
+  
+      if (diffInfo.addFields && diffInfo.addFields.length > 0) {
+        this.canvas.addFields(diffInfo.addFields);
+      }
+  
+      if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
+        this.canvas.updateCheckedStatus(diffInfo.checkedFields);
+      }
+  
+      this.canvas.updateDisableStatus(result);
+    }
+
     if (this._isRendering) {
-      return false;
-    }
-
-    let result = transformInitData({
-      columns: newProps.columns,
-      sourceColumns: newProps.sourceColumns,
-      targetColumns: newProps.targetColumns,
-      type: newProps.type || 'single',
-      sortable: _.get(newProps, 'config.sortable') || false,
-      checkable: _.get(this.props, 'config.checkable') || false,
-      sourceData: _.cloneDeep(newProps.sourceData),
-      targetData: _.cloneDeep(newProps.targetData),
-      mappingData: _.cloneDeep(newProps.mappingData),
-      extraPos: _.get(newProps, 'config.extraPos'),
-      linkNumLimit: _.get(newProps, 'config.linkNumLimit'),
-      emptyContent: newProps.emptyContent,
-      emptyWidth: newProps.emptyWidth,
-      sourceClassName: newProps.sourceClassName || '',
-      targetClassName: newProps.targetClassName || ''
-    });
-    let diffInfo = diffPropsData(result, {
-      nodes: this.canvas.nodes,
-      edges: this.canvas.edges.map((item) => {
-        return _.assign(item.options, {
-          source: (item.options.source || '').replace('-right', ''),
-          target: (item.options.target || '').replace('-left', ''),
-        });
+      this._isRendering.then(() => {
+        _update();
       })
-    });
-
-    if (diffInfo.rmEdges && diffInfo.rmEdges.length > 0) {
-      this.canvas.removeEdges(diffInfo.rmEdges.map((item) => item.id));
+      this._isRendering = false;
+    } else {
+      _update();
     }
-
-    if (diffInfo.addEdges && diffInfo.addEdges.length > 0) {
-      this.canvas.addEdges(diffInfo.addEdges);
-    }
-
-    if (diffInfo.rmNodes && diffInfo.rmNodes.length > 0) {
-      this.canvas.removeNodes(diffInfo.rmNodes);
-    }
-
-    if (diffInfo.addNodes && diffInfo.addNodes.length > 0) {
-      this.canvas.addNodes(diffInfo.addNodes);
-      this.canvas._calcPos();
-    }
-
-    if (diffInfo.rmFields && diffInfo.rmFields.length > 0) {
-      this.canvas.removeFields(diffInfo.rmFields);
-    }
-
-    if (diffInfo.addFields && diffInfo.addFields.length > 0) {
-      this.canvas.addFields(diffInfo.addFields);
-    }
-
-    if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
-      this.canvas.updateCheckedStatus(diffInfo.checkedFields);
-    }
-
-    this.canvas.updateDisableStatus(result);
 
     return false;
   }
