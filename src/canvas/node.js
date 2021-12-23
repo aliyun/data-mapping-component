@@ -452,6 +452,9 @@ export default class TableNode extends Node {
       let realFieldData = _.find(this.options.fields || [], (item) => {
         return item.id === field.id;
       });
+      if (!realFieldData) {
+        return;
+      }
       if (field.checked) {
         realFieldData.checked = field.checked;
         realField.dom.find('.dm-checkbox').addClass('dm-checkbox-checked');
