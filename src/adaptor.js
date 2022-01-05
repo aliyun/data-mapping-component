@@ -127,10 +127,22 @@ export let transformChangeData = (data, comType) => {
   return _.cloneDeep(result);
 };
 
+const getPrimaryKey = (nodeData) => {
+  let primaryKey = nodeData._sourceColumns.filter((obj) => {
+    return obj.primaryKey === true;
+  }).key;
+
+  // fallback if no primary key set, use first entry
+  if (!primaryKey) {
+    primaryKey = nodeData._sourceColumns[0].key;
+  }
+  return primaryKey;
+};
 
 export let diffPropsData = (newData, oldData) => {
+  const primaryKey = getPrimaryKey(newData.nodes[0]);
 
-  const isSameId = (a, b) => a.id === b.id;
+  const isSameId = (a, b) => a[primaryKey] === b[primaryKey];
   const isSameCheck = (a, b) => a.id === b.id && a.checked === b.checked;
 
   let addNodes = _.differenceWith(newData.nodes, oldData.nodes, isSameId);
