@@ -142,7 +142,7 @@ const getPrimaryKey = (nodeData) => {
 export let diffPropsData = (newData, oldData) => {
   const primaryKey = getPrimaryKey(newData.nodes[0]);
 
-  const isSameId = (a, b) => a.id === b.id;
+  const isSameId = (a, b) => a[primaryKey] === b[primaryKey];
   const isSameCheck = (a, b) => a.id === b.id && a.checked === b.checked;
 
   let addNodes = _.differenceWith(newData.nodes, oldData.nodes, isSameId);
