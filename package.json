@@ -1,6 +1,6 @@
 {
   "name": "react-data-mapping",
-  "version": "1.3.9",
+  "version": "1.3.11",
   "description": "数据/字段映射React组件",
   "main": "dist/index.js",
   "pack": "pack/index.js",
@@ -47,7 +47,7 @@
     "babel-loader": "~8.2.0",
     "babel-plugin-transform-es2015-modules-commonjs": "~6.26.2",
     "less": "~3.12.2",
-    "postcss": "~8.1.7",
+    "postcss": "~8.2.13",
     "rollup": "~2.38.0",
     "rollup-plugin-babel": "~4.4.0",
     "rollup-plugin-commonjs": "~10.1.0",

@@ -71,12 +71,14 @@ export default class DataMapping extends React.Component<ComProps, any> {
   protected canvas: any;
   private _isRendering: any;
   private _isOnchange: boolean;
+  private _readOnly: boolean;
   props: any;
   constructor(props: ComProps) {
     super(props);
     this.canvas = null;
     this._isRendering = false;
     this._isOnchange = false;
+    this._readOnly = false;
   }
   componentDidMount() {
     let root = ReactDOM.findDOMNode(this) as HTMLElement;
@@ -87,6 +89,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
     if (this.props.height !== undefined || this.props.height !== 'auto') {
       root.style.height = (this.props.height || 500) + 'px';
     }
+    
+    this._readOnly = this.props.readonly || false;
 
     let result = transformInitData({
       columns: this.props.columns,
@@ -103,7 +107,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
       emptyContent: this.props.emptyContent,
       emptyWidth: this.props.emptyWidth,
       sourceClassName: this.props.sourceClassName || '',
-      targetClassName: this.props.targetClassName || ''
+      targetClassName: this.props.targetClassName || '',
+      readonly: this._readOnly
     });
     
     let canvasObj = {
@@ -191,7 +196,8 @@ export default class DataMapping extends React.Component<ComProps, any> {
         emptyContent: newProps.emptyContent,
         emptyWidth: newProps.emptyWidth,
         sourceClassName: newProps.sourceClassName || '',
-        targetClassName: newProps.targetClassName || ''
+        targetClassName: newProps.targetClassName || '',
+        readonly: this.props.readonly || false
       });
       let diffInfo = diffPropsData(result, {
         nodes: this.canvas.nodes,
@@ -230,6 +236,13 @@ export default class DataMapping extends React.Component<ComProps, any> {
   
       if (diffInfo.checkedFields && diffInfo.checkedFields.length > 0) {
         this.canvas.updateCheckedStatus(diffInfo.checkedFields);
+      }
+
+      if (this._readOnly != newProps.readonly) {
+        this._readOnly = newProps.readonly;
+        this.canvas.setLinkable(!!!newProps.readonly);
+        this.canvas.setDisLinkable(!!!newProps.readonly);
+        (this.canvas.nodes || []).forEach((item) => item.setReadOnly(newProps.readonly));
       }
   
       this.canvas.updateDisableStatus(result);

@@ -35,6 +35,9 @@ export default class TableNode extends Node {
     // 选择状态
     this.checked = opts.checked;
 
+    // 只读状态
+    this.readonly = opts.readonly;
+
     this.fieldsList = [];
   }
   _addEventListener() {
@@ -193,9 +196,15 @@ export default class TableNode extends Node {
     if (field.checked) {
       checkboxDom.find('.dm-checkbox').addClass('dm-checkbox-checked');
     }
+    if (this.readonly) {
+      checkboxDom.addClass('field-checkbox-disable');
+    }
     checkboxDom.click((e) => {
       e.preventDefault();
       e.stopPropagation();
+      if (this.readonly) {
+        return;
+      }
       // 发送事件，更新选择状态
       this.emit('custom.field.checked', {
         nodeId: this.id,
@@ -424,6 +433,16 @@ export default class TableNode extends Node {
       pointIds: [curFieldData.id, nextFieldData.id]
     });
     
+  }
+  setReadOnly (newStatus) {
+    if (this.readonly != newStatus) {
+      this.readonly = newStatus;
+      if (newStatus) {
+        $(this.dom).find('.field-checkbox').addClass('field-checkbox-disable');
+      } else {
+        $(this.dom).find('.field-checkbox').removeClass('field-checkbox-disable');
+      }
+    }
   }
   addFields(fields) {
     let _addFieldsList = this._createFields(undefined, fields);
