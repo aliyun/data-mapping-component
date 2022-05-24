@@ -9,9 +9,9 @@ export let transformInitData = (data) => {
     sourceData, targetData,
     mappingData, type, extraPos,
     sortable, checkable, emptyContent, emptyWidth,
-    sourceClassName, targetClassName
+    sourceClassName, targetClassName, readonly
   } = data;
-
+  
   let _sourceColumns = [];
   let _targetColumns = [];
   _sourceColumns = sourceColumns ? sourceColumns : columns;
@@ -31,7 +31,8 @@ export let transformInitData = (data) => {
         _sourceClassName: sourceClassName,
         _targetClassName: targetClassName,
         sortable,
-        checkable
+        checkable,
+        readonly
       }, data)];
     } else if (comType === 'mutiply' && data.constructor === Array) {
       return data.map((item) => {
@@ -46,7 +47,8 @@ export let transformInitData = (data) => {
           _sourceClassName: sourceClassName,
           _targetClassName: targetClassName,
           sortable,
-          checkable
+          checkable,
+          readonly
         }, item);
       });
     }
