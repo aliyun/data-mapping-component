@@ -143,6 +143,7 @@ npm install react-data-mapping
 |paddingTop    |  顶部padding间距             | number      | 0    |
 |paddingBottom |  底部padding间距            | number      | 0    |
 |paddingCenter |  水平间距        | number      | 150    |
+|nodeVerticalPadding |  节点垂直间距        | number      | 10    |
 
 <br>
 
