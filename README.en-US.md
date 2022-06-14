@@ -141,6 +141,7 @@ Padding is reserved when rendering the canvas
 |paddingTop    |  Padding spacing on the top              | number      | 0    |
 |paddingBottom |  Padding spacing on the bottom           | number      | 0    |
 |paddingCenter |  Center spacing                          | number      | 150  |
+|nodeVerticalPadding |  Node vertical spacing        | number      | 10    |
 
 <br>
 
