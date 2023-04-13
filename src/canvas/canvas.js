@@ -203,7 +203,7 @@ export default class MappingCanvas extends Canvas {
           let newField = _.find(newFields, (item) => {
             return item.id === oldField.id;
           });
-          if (newFields && newField.disable !== oldField.disable) {
+          if (newField && newField.disable !== oldField.disable) {
             oldField.disable = newField.disable;
             let pos = oldNode.options.type === 'source' ? 'right' : 'left';
             oldNode.endpoints.filter((item) => {
