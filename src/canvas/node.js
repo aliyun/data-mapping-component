@@ -455,6 +455,9 @@ export default class TableNode extends Node {
   removeFields(fields) {
     fields.forEach((item) => {
       let index = _.findIndex(this.fieldsList, _field => _field.id === item.id);
+      if (index === -1) {
+        return;
+      }
       let field = this.fieldsList.splice(index, 1)[0];
       if (field) {
         $(field.dom).find('.field-item').off();
