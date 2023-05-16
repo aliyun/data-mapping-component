@@ -2,6 +2,7 @@
 
 import {Endpoint} from 'butterfly-dag';
 import $ from 'jquery';
+import _ from 'lodash';
 
 class NewEndPoint extends Endpoint {
   constructor(opts) {
@@ -26,7 +27,7 @@ class NewEndPoint extends Endpoint {
 
       // 点击中了上移/下移的按钮,需要阻止
       let classname = e.target.className || '';
-      if (classname.indexOf('move-up') !== -1 || classname.indexOf('move-down') !== -1) {
+      if (!_.isString(classname) || classname.indexOf('move-up') !== -1 || classname.indexOf('move-down') !== -1) {
         return;
       }
 
