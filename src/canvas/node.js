@@ -19,7 +19,7 @@ export default class TableNode extends Node {
     // 每列宽度
     this.COLUMN_WIDTH = 60;
     // 每行高度
-    this.ROW_HEIGHT = 26;
+    this.ROW_HEIGHT = _.get(opts, '_extraPos.rowHeight')|| 26;
     // 垂直间距
     this.PADDING_VERTICAL = _.get(opts, '_extraPos.nodeVerticalPadding') || 10;
     // 水平间距
